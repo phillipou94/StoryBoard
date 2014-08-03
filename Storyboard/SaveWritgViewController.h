@@ -1,5 +1,5 @@
 //
-//  SecondViewController.h
+//  SaveWritgViewController.h
 //  Storyboard
 //
 //  Created by Phillip Ou on 8/2/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecondViewController : UIViewController
+@interface SaveWritgViewController : UIViewController
 
 @end

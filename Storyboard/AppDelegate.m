@@ -7,15 +7,50 @@
 //
 
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
+#import "LoginViewController.h"
+#import "FeedViewController.h"
+//#import <FacebookSDK/FacebookSDK.h>
+
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [Parse setApplicationId:@"S0mzGDe7cf8EtY6eAnG6TVo52bp7d4pHWzopmH2C"
+                  clientKey:@"XVUo28JSds3yNPN0Qw0eiNELHWvpQaZgPD0zpT95"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    [PFImageView class];
+   // [PFFacebookUtils initializeFacebook];
+    
+    //make loginViewController rootview
+    
+        
+    if (![PFUser currentUser]){
+    LoginViewController *myViewController = [[LoginViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
+        self.window.rootViewController = navigationController;}
+    
+    
+    
+    
+    //if user is not logged in
     return YES;
 }
-							
+
+- (void)presentLoginControllerAnimated:(BOOL)animated {
+    
+    LoginViewController *myViewController = [[LoginViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
+    self.window.rootViewController = navigationController;
+}
+
+
+
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -32,15 +67,17 @@
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
+/*
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
-
+*/
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end
