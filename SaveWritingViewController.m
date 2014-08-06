@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 @interface SaveWritingViewController ()
 
+
 @end
 
 @implementation SaveWritingViewController
@@ -26,7 +27,10 @@
 - (void)viewDidLoad
 {
     NSLog(@"%@",self.selectedMessage.objectId);
+  
     self.textView.delegate = self;
+    self.titleTextField.text = self.selectedMessage[@"title"];
+    self.textView.text = self.selectedMessage[@"story"];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
@@ -43,23 +47,41 @@
     
     
     self.chosenImageView.image = [UIImage imageWithData:imageData];
+    self.smallerImageView.image = [UIImage imageWithData:imageData];
+    self.smallerImageView.hidden=YES;
+   /*
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(saveDraft:)];
+    doubleTap.cancelsTouchesInView = YES;
+    doubleTap.numberOfTouchesRequired=2;
+    doubleTap.numberOfTapsRequired = 1;
+    doubleTap.delegate = self;
     
+    [self.view addGestureRecognizer:doubleTap];*/
+    
+    UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showKeyboard)];
+    
+    
+    [swipeUp setDirection:UISwipeGestureRecognizerDirectionUp];
+    // [self.imageView addGestureRecognizer:swipeLeft];
+    [self.view addGestureRecognizer:swipeUp];
+    
+    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [swipeDown setDirection:UISwipeGestureRecognizerDirectionDown];
+    // [self.imageView addGestureRecognizer:swipeLeft];
+    [self.view addGestureRecognizer:swipeDown];
 
     
+
+
+    self.tabBarController.tabBar.hidden = NO;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
 
--(void)dismissKeyboard {
-    [self.textView resignFirstResponder];
-    [self.titleTextField resignFirstResponder];
-}
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    textView.text = @"";
-}
+
 - (void)textViewDidChange:(UITextView *)textView {
+    
     CGRect line = [textView caretRectForPosition:
                    textView.selectedTextRange.start];
     CGFloat overflow = line.origin.y + line.size.height
@@ -76,6 +98,147 @@
         }];
     }
 }
+
+#define kOFFSET_FOR_KEYBOARD 80.0
+
+-(void)keyboardWillShow {
+    // Animate the current view out of the way
+    if (self.view.frame.origin.y >= 0)
+    {
+        [self setViewMovedUp:YES];
+    }
+    else if (self.view.frame.origin.y < 0)
+    {
+        [self setViewMovedUp:NO];
+    }
+}
+
+-(void)keyboardWillHide {
+    if (self.view.frame.origin.y >= 0)
+    {
+        [self setViewMovedUp:YES];
+    }
+    else if (self.view.frame.origin.y < 0)
+    {
+        [self setViewMovedUp:NO];
+    }
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)sender
+{
+    if ([sender isEqual:self.textView])
+    {
+        //move the main view, so that the keyboard does not hide it.
+        if  (self.view.frame.origin.y >= 0)
+        {
+            [self setViewMovedUp:YES];
+        }
+    }
+   
+   
+}
+
+//method to move the view up/down whenever the keyboard is shown/dismissed
+-(void)setViewMovedUp:(BOOL)movedUp
+{
+    if(self.titleTextField.isEditing){
+        //don't scroll up if we're doing editting the titleTextField anything if we're
+    }
+    else{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+    
+    CGRect rect = self.view.frame;
+    CGRect textViewRect = self.textView.frame;
+       
+    if (movedUp)
+    {
+        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+        // 2. increase the size of the view so that the area behind the keyboard is covered up.
+        rect.origin.y -= kOFFSET_FOR_KEYBOARD+155;
+        rect.size.height += kOFFSET_FOR_KEYBOARD+155;
+        textViewRect.origin.y -=kOFFSET_FOR_KEYBOARD+155;
+        textViewRect.size.height += kOFFSET_FOR_KEYBOARD+155;
+        
+        self.smallerImageView.hidden=NO;
+       
+    }
+    else
+    {
+        // revert back to the normal state.
+        rect.origin.y += kOFFSET_FOR_KEYBOARD+155;
+        rect.size.height -= kOFFSET_FOR_KEYBOARD+155;
+        textViewRect.origin.y +=kOFFSET_FOR_KEYBOARD+155;
+        textViewRect.size.height -= kOFFSET_FOR_KEYBOARD+155;
+        textViewRect.origin.x -= 51;
+        self.smallerImageView.hidden=YES;
+    }
+    self.view.frame = rect;
+    
+    [UIView commitAnimations];
+    }
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.tabBarController.tabBar.hidden=YES;
+    
+    [super viewWillAppear:animated];
+    // register for keyboard notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    // unregister for keyboard notifications while not visible.
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+     NSLog(@"view disappeared");
+ 
+    if([self.textView.text length] !=0 ||[self.titleTextField.text length] !=0){
+         [self.selectedMessage setObject:[self.textView text] forKey:@"story"];
+        [self.selectedMessage setObject:self.titleTextField.text forKey:@"title"];
+        [self.selectedMessage saveInBackground];
+        NSLog(@"saved");
+    }
+   
+}
+
+-(void)dismissKeyboard {
+    [self.textView resignFirstResponder];
+    [self.titleTextField resignFirstResponder];
+}
+-(void)showKeyboard{
+    //if statement needed to avoid bug when user swipes up while still editting title
+    if(self.titleTextField.isEditing){
+        [self.titleTextField resignFirstResponder];
+            
+        }
+    [self.textView becomeFirstResponder];
+    //[self.titleTextField becomeFirstResponder];
+    
+}
+/*
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    textView.text = @"";
+}*/
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -92,24 +255,46 @@
     if(self.titleTextField.text.length ==0){
         self.titleTextField.text = @"Untitled";
     }
-    [message setObject: [self.titleTextField text] forKey:@"title"];
+    if(self.titleLabel.text.length==0){
+        self.titleLabel.text=@"Untitled";
+    }
+    [message setObject: self.titleTextField.text forKey:@"title"];
     [message setObject: [self.textView text] forKey:@"story"];
     
     [message setObject:[[PFUser currentUser] username] forKey:@"whoTookName"];
     [message saveInBackground];
     
-    [self.selectedMessage setObject: @"sent" forKey:@"sent"];
-    [self.selectedMessage saveInBackground];
+   /* [self.selectedMessage setObject: @"sent" forKey:@"sent"];
+    [self.selectedMessage saveInBackground];*/
     //[self.tabBarController setSelectedIndex:0];
+    [self.selectedMessage deleteInBackground];
     [self reset];
     
 }
+
 
 -(void) reset{
     self.selectedMessage = nil;
     //[self.tabBarController setSelectedIndex:0];
      [self performSegueWithIdentifier:@"backToTab" sender:self];
 }
+
+- (IBAction)saveDraft:(id)sender {
+    NSLog(@"save clicked");
+    [self.selectedMessage setObject:self.titleTextField.text forKey:@"title"];
+    [self.selectedMessage setObject:[self.textView text] forKey:@"story"];
+    [self.selectedMessage saveInBackground];
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Draft Saved"
+                                                        message:@"Come back and edit it anytime"
+                                                       delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:nil];
+    [alertView show];
+    
+    
+}
+
+
+
 /*
 #pragma mark - Navigation
 

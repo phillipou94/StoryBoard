@@ -50,22 +50,13 @@ static PFGeoPoint *geoPoint;
 {
     
     
-    
+    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:45/255.0 green:67/255.0  blue:101/255.0  alpha:1]]; //45,67,101
+    //[[UITabBar appearance] setBarTintColor:[UIColor yellowColor]];
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [UIFont fontWithName:@"Verdana" size:20.0], NSFontAttributeName, nil]];
+   
     
-    if ([PFUser currentUser])
-    {
-        NSLog(@"we are logged in already");
-        [self.tabBarController setSelectedIndex:0];
-    }
-    else
-    {
-        PFLogInViewController *loginView = [[PFLogInViewController alloc] init];
-        loginView.delegate = self;
-        [self presentViewController:loginView animated:NO completion:nil];
-    }
 
     self.currentUser=[PFUser currentUser];
     self.usernamelabel.text = self.currentUser.username;
@@ -90,9 +81,20 @@ static PFGeoPoint *geoPoint;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+- (IBAction)segmentChanged:(id)sender {
+    
+   
+    //Refresh Objects in TableView
+    
+    [self loadObjects];
+}
+
+
 -(void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden=NO;
-    
+    if(self.objects.count==0){
+        
+    }
    
    
 }
@@ -131,14 +133,30 @@ static PFGeoPoint *geoPoint;
    /* if (self.objects.count == 0) {
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }*/
-    if(self.objects.count!=0){
+
+    if(self.selfLocation!=nil){
+        NSLog(@"%d",self.segmentControl.selectedSegmentIndex);
+        switch (self.segmentControl.selectedSegmentIndex) {
         NSLog(@"searching");
-    [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:0.2];
-    [query orderByDescending:@"createdAt"];
-    NSLog(@"%@",self.messagesNear);
-    query.limit=20;
+            case 0:
+                [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:1];
+                [query orderByDescending:@"createdAt"];
+                NSLog(@"%@",self.messagesNear);
+                //query.limit=20;
+                return query;
+                break;
+            case 1:
+                [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:1];
+                [query orderByDescending:@"numberOfLikes"];
+                //[query orderByDescending:@"createdAt"];
+                NSLog(@"%@",self.messagesNear);
+                //query.limit=20;
+                return query;
+                break;
+        }
     
     }
+    query.limit=1;
     return query;
 }
 
@@ -181,6 +199,7 @@ static PFGeoPoint *geoPoint;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
     cell.hidden = YES;
     if(self.loadCount!=0){
         cell.hidden=NO;
@@ -196,6 +215,15 @@ static PFGeoPoint *geoPoint;
     nameLabel.text = message[@"whoTookName"];
     nameLabel.adjustsFontSizeToFitWidth=YES;
     
+    UILabel *dateLabel = (UILabel*) [cell viewWithTag:4];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM/dd 'at' HH mm" options:0 locale:nil];
+    
+    [formatter setDateFormat:dateFormat];
+    
+    dateLabel.text= [formatter stringFromDate:message.createdAt];
+    
     PFImageView *photo = (PFImageView *)[cell viewWithTag:1];
     
     photo.file = [message objectForKey:@"file"]; //save photo.file in key image
@@ -206,17 +234,18 @@ static PFGeoPoint *geoPoint;
     [photo loadInBackground];
     
     
-    cell.selected=NO;
+    
     
     return cell;
 }
 
--(void) tableView: (UITableViewCell *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+-(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     NSLog(@"%d",indexPath.row);
     self.selectedMessage= self.objects[indexPath.row];
     NSLog(@"%@",self.selectedMessage.objectId);
     [self performSegueWithIdentifier:@"transition" sender:self];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     
 }
@@ -278,15 +307,6 @@ static PFGeoPoint *geoPoint;
     // Pass the selected object to the new view controller.
 }
 */
-- (IBAction)logout:(id)sender {
-    [PFUser logOut];
-    PFLogInViewController *loginView = [[PFLogInViewController alloc] init];
-    loginView.delegate = self;
-    [self presentViewController:loginView animated:NO completion:nil];
-    //AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-    
-   
 
-}
 
 @end

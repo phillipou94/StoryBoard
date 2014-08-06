@@ -8,6 +8,7 @@
 
 #import "SavedTableViewController.h"
 #import "SaveWritingViewController.h"
+#import "AppDelegate.h"
 
 @interface SavedTableViewController ()
 
@@ -24,9 +25,16 @@
     }
     return self;
 }
+-(void) viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
+    self.currentUser = [PFUser currentUser];
+    NSLog(@"%@",self.currentUser.objectId);
+    [super viewWillAppear:animated];
+}
 
 - (void)viewDidLoad
 {
+    self.tabBarController.tabBar.hidden = NO;
     
     [super viewDidLoad];
     
@@ -59,14 +67,14 @@
     if (self.objects.count == 0) {
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    if(self.objects.count!=0){
+    
         self.loadCount++;
         NSLog(@"searching");
         [query whereKey:@"sent" notEqualTo:@"sent"];
         [query whereKey:@"whoTookId" containsString: self.currentUser.objectId];
         [query orderByDescending:@"createdAt"];
         query.limit=20;
-    }
+    
     return query;
 }
 
@@ -97,7 +105,11 @@
         cell.hidden=NO;
     }
    
+    UILabel *titleLabel = (UILabel*) [cell viewWithTag:3];
+    
+    
     PFObject *message= self.objects[indexPath.row];
+    titleLabel.text = message[@"title"];
     
     UILabel *dateLabel = (UILabel*) [cell viewWithTag:2];
     
@@ -105,7 +117,7 @@
    
 
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM d yyyy" options:0 locale:nil];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM/dd 'at' HH mm" options:0 locale:nil];
                                   
     [formatter setDateFormat:dateFormat];
   
@@ -136,6 +148,28 @@
     
     
 }
+
+
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSLog(@"deleting");
+        PFObject *objectToDelete = self.objects[indexPath.row];
+       
+        [objectToDelete deleteInBackground];
+        [self loadObjects];
+        
+        //add code here for when you hit delete
+        
+    }
+}
+
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"transition"]){
         SaveWritingViewController *viewController = [segue destinationViewController];
@@ -144,6 +178,20 @@
         viewController.selectedMessage = self.selectedMessage;
     }
 }
+
+- (IBAction)logout:(id)sender {
+    
+    [PFUser logOut];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *loginNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"loginNav"];
+    [self presentViewController:loginNavigationController animated:NO completion:nil];
+    
+    
+
+    
+}
+
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

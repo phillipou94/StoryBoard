@@ -16,5 +16,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *titleTextField;
 @property (strong, nonatomic) IBOutlet UITextView *textView;
 @property (strong, nonatomic) PFUser *currentUser;
+@property (strong, nonatomic) NSString *titleText;
+
+@property (strong, nonatomic) IBOutlet UIImageView *smallerImageView;
+@property (strong, nonatomic) PFObject *selectedMessage;
 
 @end

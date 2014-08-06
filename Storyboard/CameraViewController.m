@@ -18,7 +18,7 @@
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 @property (weak, nonatomic) IBOutlet UIImageView *chosenImageView;
 @property (weak, nonatomic) UIImage *chosenImage;
-@property (weak,nonatomic) IBOutlet UITextField *titleTextField;
+/*@property (weak,nonatomic) IBOutlet UITextField *titleTextField;*/
 @property (nonatomic,strong) PFGeoPoint *messageLocation;
 
 @end
@@ -55,7 +55,8 @@
 -(void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden=YES;
-    _imagePicker = [[UIImagePickerController alloc]init];
+    self.titleTextField.text = nil;
+    self.imagePicker = [[UIImagePickerController alloc]init];
     self.imagePicker.delegate = self;
     
     //crop image into a square like instagram
@@ -126,6 +127,7 @@
 }
 -(void) clear{
     self.chosenImageView.image=nil;
+    self.titleTextField.text=nil;
 }
 
 //every timescreen is touched in CameraViewController, this is activated
@@ -141,16 +143,22 @@
         NSLog(@"%@",self.chosenImage);
     viewController.chosenImage=self.chosenImage;
     viewController.messageLocation = self.messageLocation;
+    viewController.titleText= self.titleTextField.text;
+        
+  
+        
     }
 }
 - (IBAction)backButton:(id)sender {
+    [self clear];
     
     [self.tabBarController setSelectedIndex: 0];
 }
 
 - (IBAction)writeYourStory:(id)sender {
-    
+   
     [self performSegueWithIdentifier:@"transition" sender:self];
+     [self clear];
 }
 
 
@@ -163,8 +171,14 @@
     message[@"location"]=self.messageLocation;
     message[@"whoTook"]= [PFUser currentUser];
     message[@"whoTookId"]= [[PFUser currentUser]objectId];
-    message[@"whereForSave"] = self.whereAreYouTextField.text;
+    message[@"title"] = self.titleTextField.text;
+    
     [message saveInBackground];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Draft Saved"
+                                                        message:@"Come back and edit it anytime"
+                                                       delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:nil];
+    [alertView show];
+    
     
      [self.tabBarController setSelectedIndex: 0];
 }

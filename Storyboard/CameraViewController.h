@@ -12,4 +12,8 @@
 
 @interface CameraViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *whereAreYouTextField;
+
+@property (strong, nonatomic) IBOutlet UITextField *titleTextField;
+
+
 @end

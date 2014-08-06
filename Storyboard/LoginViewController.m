@@ -25,41 +25,26 @@
     return self;
 }
 
--(void) viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    if([PFUser user]){
-        NSLog(@"Logged in");
-        [self dismissModalViewControllerAnimated:YES];
-        [self.tabBarController setSelectedIndex:0];
-        //[self performSegueWithIdentifier:@"loggedIn" sender:self];
-               
-        
-    }
-    
-    PFLogInViewController *login = [[PFLogInViewController alloc]init];
-    login.delegate = self;
-    login.signUpController.delegate = self;
-    login.fields = PFLogInFieldsDefault;
-    [self presentModalViewController:login animated:YES];
-    
+-(void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 }
+
 -(void) viewDidLoad{
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+    
     
         [super viewDidLoad];
         // Do any additional setup after loading the view.
         
-        if ([PFUser currentUser])
-        {
-            NSLog(@"we are logged in already");
-            [self.tabBarController setSelectedIndex:0];
-        }
-        else
-        {
-            PFLogInViewController *loginView = [[PFLogInViewController alloc] init];
-            loginView.delegate = self;
-            [self presentViewController:loginView animated:NO completion:nil];
-        }
     }
+-(void)dismissKeyboard {
+    [self.usernameTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+}
 
 
 -(void) loginViewcontroller: (PFLogInViewController *) logInController didLogInUser: (PFUser *)user{
@@ -103,5 +88,59 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (IBAction)login:(id)sender {
+    NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if(username.length !=0 && password.length !=0){
+        PFUser *user = [PFUser user];
+        user.username = username;
+        user.password = password;
+        [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
+            if(user){
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];}
+            else{
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Check your username and password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+            }
+            
+        }];
+        
+            }
+    else{
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"One of the fields is empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+
+    
+}
+
+- (IBAction)signup:(id)sender {
+    NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if(username.length !=0 && password.length !=0){
+        PFUser *user = [PFUser user];
+        user.username = username;
+        user.password = password;
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if(!error){
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            }
+            else{
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error Signing Up" message:@"that username is taken, please try a new one" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+                
+            }
+        }];
+    }
+    else{
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"One of the fields is empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+    
+    
+
+}
+
 
 @end

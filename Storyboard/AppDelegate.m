@@ -26,28 +26,24 @@
    // [PFFacebookUtils initializeFacebook];
     
     //make loginViewController rootview
-    
+    [self.window makeKeyAndVisible];
+    if(![PFUser currentUser]){
+        [self presentLoginControllerAnimated:NO];}
         
-    if (![PFUser currentUser]){
-    LoginViewController *myViewController = [[LoginViewController alloc] init];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
-        self.window.rootViewController = navigationController;}
+    
     
     
     
     
     //if user is not logged in
-    return YES;
+        return YES;
 }
-
-- (void)presentLoginControllerAnimated:(BOOL)animated {
-    
-    LoginViewController *myViewController = [[LoginViewController alloc] init];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:myViewController];
-    self.window.rootViewController = navigationController;
+-(void) presentLoginControllerAnimated:(BOOL) animated{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *loginNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"loginNav"];
+    [self.window.rootViewController presentViewController:loginNavigationController animated:animated completion:nil];
+   
 }
-
-
 
 
 

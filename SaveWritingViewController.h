@@ -15,5 +15,9 @@
 @property (nonatomic,strong) PFGeoPoint *messageLocation;
 @property (strong, nonatomic) IBOutlet UITextField *titleTextField;
 @property (strong, nonatomic) IBOutlet UITextView *textView;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) PFObject *selectedMessage;
+@property (strong, nonatomic) IBOutlet UIImageView *smallerImageView;
+
+
 @end

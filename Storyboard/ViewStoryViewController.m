@@ -11,7 +11,14 @@
 #import "Parse/Parse.h"
 
 @interface ViewStoryViewController ()
+@property (strong, nonatomic) IBOutlet UIImageView *smallerImageView;
 
+@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *smallerLabel;
+@property (nonatomic, strong) NSMutableArray *likedPhoto;
+@property (nonatomic, strong) NSMutableArray *likedStory;
+@property float likes;
+@property (nonatomic, strong) PFObject *currentUser;
 
 @end
 
@@ -31,25 +38,183 @@
     
     [self.view setUserInteractionEnabled:YES];
     
-    if([[self.selectedMessage objectForKey:@"story"] length]!=0){
+    
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(fullStoryButton:)];
+       
     
     [swipeUp setDirection:UISwipeGestureRecognizerDirectionUp];
     // [self.imageView addGestureRecognizer:swipeLeft];
-    [self.view addGestureRecognizer:swipeUp];}
+    [self.view addGestureRecognizer:swipeUp];
+        
+        UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(fullPictureButton:)];
+        [swipeDown setDirection:UISwipeGestureRecognizerDirectionDown];
+        // [self.imageView addGestureRecognizer:swipeLeft];
+        [self.view addGestureRecognizer:swipeDown];
+    
+    
+    self.currentUser = [PFUser currentUser];
 
     [super viewDidLoad];
+    
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM d yyyy" options:0 locale:nil];
+    
+    [formatter setDateFormat:dateFormat];
+    
+    self.dateLabel.text= [formatter stringFromDate:self.selectedMessage.createdAt];
+    
+    self.likes = [self.selectedMessage[@"numberOfLikes"] floatValue];
 
+   
 
     
-    NSLog(@"%@",self.selectedMessage.objectId);
+    NSLog(@"view did load:%@",self.selectedMessage.objectId);
     // Do any additional setup after loading the view.
+    
+    if([self.selectedMessage[@"likedPhoto"] count]==0){
+        self.likedPhoto =[[NSMutableArray alloc] init];
+        self.likedStory = [[NSMutableArray alloc] init];
+        
+    }
+    else{
+        self.likedPhoto = [NSMutableArray arrayWithArray:self.selectedMessage[@"likedPhoto"] ];
+        self.likedStory = [NSMutableArray arrayWithArray:self.selectedMessage[@"likedStory"] ];
+    }
+    self.likes = [self.selectedMessage[@"numberOfLikes"] floatValue];
 }
 
--(void) viewWillAppear:(BOOL)animated{
-    self.titleLabel.text = [self.selectedMessage objectForKey:@"title"];
-    self.storyView.text = [self.selectedMessage objectForKey:@"story"];
+#define kOFFSET_FOR_KEYBOARD 80.0
+-(void)setViewMovedUp:(BOOL)movedUp
+{
     
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+        
+        CGRect rect = self.view.frame;
+    CGRect storyRect = self.storyView.frame;
+    NSLog(@"%f",storyRect.origin.y);
+   
+            NSLog(@"this is being showed");
+    
+            // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+            // 2. increase the size of the view so that the area behind the keyboard is covered up.
+            rect.origin.y -= kOFFSET_FOR_KEYBOARD+150;
+            rect.size.height += kOFFSET_FOR_KEYBOARD+150;
+            
+            storyRect.origin.y-= kOFFSET_FOR_KEYBOARD+150;
+            storyRect.size.height += kOFFSET_FOR_KEYBOARD+150;
+            self.smallerImageView.hidden=NO;
+            self.fullStoryButton.hidden=YES;
+            self.fullPicture.hidden=NO;
+            self.storyView.hidden=NO;
+    self.smallerLabel.hidden=NO;
+     self.imageView.hidden=YES;
+    self.view.frame = rect;
+    self.emptyHeartButton.hidden=YES;
+    self.fullHeart.hidden=YES;
+    
+    if(self.emptyHeartButton.selected==YES){
+        self.halfHeartButton.hidden=NO;
+    }
+    
+        [UIView commitAnimations];
+    
+
+    
+           
+    
+            //self.chosenImageView.hidden=YES;
+           // self.smallerImageView.hidden=NO;
+}
+//after swipe down
+-(void)setViewMovedDown:(BOOL)movedDown
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+    
+    CGRect rect = self.view.frame;
+    CGRect storyRect = self.storyView.frame;
+    
+    NSLog(@"this is being showed");
+    
+    self.imageView.hidden=NO;
+    self.smallerLabel.hidden=YES;
+    // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+    // 2. increase the size of the view so that the area behind the keyboard is covered up.
+    rect.origin.y += kOFFSET_FOR_KEYBOARD+150;
+    rect.size.height -= kOFFSET_FOR_KEYBOARD+150;
+    
+    storyRect.origin.y+= kOFFSET_FOR_KEYBOARD+150;
+    storyRect.size.height -= kOFFSET_FOR_KEYBOARD+150;
+    self.smallerImageView.hidden=YES;
+    self.fullStoryButton.hidden=NO;
+    self.fullPicture.hidden=YES;
+    self.storyView.hidden=YES;
+    self.emptyHeartButton.hidden=NO;
+    self.halfHeartButton.hidden=YES;
+    if(self.halfHeartButton.selected==YES){
+        self.fullHeart.hidden=NO;
+        self.emptyHeartButton.hidden=YES;
+    }
+    
+    self.view.frame = rect;
+    
+        [UIView commitAnimations];
+    
+}
+
+-(void)keyboardWillShow {
+    // Animate the current view out of the way
+    if (self.view.frame.origin.y >= 0)
+    {
+        [self setViewMovedUp:YES];
+    }
+    else if (self.view.frame.origin.y < 0)
+    {
+        [self setViewMovedUp:NO];
+    }
+}
+
+-(void)keyboardWillHide {
+    if (self.view.frame.origin.y >= 0)
+    {
+        [self setViewMovedUp:YES];
+    }
+    else if (self.view.frame.origin.y < 0)
+    {
+        [self setViewMovedUp:NO];
+    }
+}
+
+
+
+-(void) viewWillAppear:(BOOL)animated{
+    NSLog(@"view will appear");
+    self.tabBarController.tabBar.hidden=NO;
+  
+    
+    self.titleLabel.text = [self.selectedMessage objectForKey:@"title"];
+    self.smallerLabel.text = self.titleLabel.text;
+    self.smallerLabel.hidden=YES;
+    self.storyView.text = [self.selectedMessage objectForKey:@"story"];
+    self.halfHeartButton.hidden=YES;
+    self.emptyHeartButton.hidden=NO;
+    self.fullHeart.hidden=YES;
+    
+    if([self.likedPhoto containsObject:self.currentUser.objectId]){
+        self.emptyHeartButton.selected=YES;
+    }
+    
+    
+    if([self.likedStory containsObject:self.currentUser.objectId]){
+        self.halfHeartButton.selected=YES;
+    }
+    
+    if([self.likedPhoto containsObject:self.currentUser.objectId] &&[self.likedStory containsObject:self.currentUser.objectId]){
+        self.fullHeart.hidden=NO;
+        self.emptyHeartButton.hidden=YES;
+    }
     PFFile *imageFile = [self.selectedMessage objectForKey: @"file"];
     
     
@@ -60,17 +225,54 @@
     
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView.clipsToBounds = YES;
-    [self.imageView setImage:[UIImage imageWithData:imageData]];
+    self.image =[UIImage imageWithData:imageData];
+    [self.imageView setImage:self.image];
+    self.imageView.hidden=NO;
+    
+    self.smallerImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.smallerImageView.clipsToBounds = YES;
+     [self.smallerImageView setImage:self.image];
+    self.smallerImageView.hidden=YES;
+    
+    self.fullStoryButton.hidden=NO;
+    self.fullPicture.hidden=YES;
+    self.storyView.hidden=YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+}
+- (IBAction)fullPictureButton:(id)sender {
+    NSLog(@"touched");
+   
+    
+        [self setViewMovedDown:YES];
+    
+    
+}
 
 - (IBAction)fullStoryButton:(id)sender {
-    
-   [self performSegueWithIdentifier:@"fullStory" sender:self];
+   
+    if  (self.view.frame.origin.y >= 0)
+    {
+        [self setViewMovedUp:YES];
+    }
+
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -81,6 +283,47 @@
         viewController.selectedMessage = self.selectedMessage;
     }
 }
+
+- (IBAction)emptyHeartButton:(id)sender {
+    if(![self.likedPhoto containsObject:self.currentUser.objectId]){
+        [self.likedPhoto addObject:self.currentUser.objectId];
+            self.emptyHeartButton.selected=YES;
+        self.likes +=0.5;
+        [self.selectedMessage setObject: [NSNumber numberWithFloat:self.likes]forKey:@"numberOfLikes"];
+        [self.selectedMessage setObject:[NSArray arrayWithArray:self.likedPhoto]forKey:@"likedPhoto"];
+        [self.selectedMessage saveInBackground];}
+}
+
+- (IBAction)halfHeartbutton:(id)sender {
+    if(![self.likedStory containsObject:self.currentUser.objectId]){
+        [self.likedStory addObject:self.currentUser.objectId];
+        self.halfHeartButton.selected=YES;
+        self.likes +=0.5;
+        [self.selectedMessage setObject: [NSNumber numberWithFloat:self.likes]forKey:@"numberOfLikes"];
+        [self.selectedMessage setObject:[NSArray arrayWithArray:self.likedStory] forKey:@"likedStory"];
+        [self.selectedMessage saveInBackground];}
+}
+
+
+
+/*
+- (IBAction)like:(id)sender {
+    PFUser *currentUser= [PFUser currentUser];
+    if([[self.selectedMessage objectForKey:@"listOfLikers"] count]!=0){
+            NSArray *array = [self.selectedMessage objectForKey:@"listOfLikers"];
+        NSMutableArray *arrayUpdate = [NSMutableArray arrayWithArray:array];
+        [arrayUpdate addObject:currentUser.objectId];
+        [self.selectedMessage setObject:arrayUpdate forKey:@"listOfLikers"];}
+    else{
+        NSMutableArray *arrayUpdate = [[NSMutableArray alloc]init];
+        [arrayUpdate addObject:currentUser.objectId];
+        NSArray *array = [NSArray arrayWithArray: arrayUpdate];
+        [self.selectedMessage setObject:array forKey:@"listOfLikers"];
+    }
+    [self.selectedMessage saveInBackground];
+    
+    
+}*/
 
 /*
 #pragma mark - Navigation

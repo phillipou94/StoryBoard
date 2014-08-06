@@ -19,5 +19,7 @@
 @property int loadCount;
 
 
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+
 
 @end

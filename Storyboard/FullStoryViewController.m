@@ -10,6 +10,7 @@
 #import "ViewStoryViewController.h"
 
 @interface FullStoryViewController ()
+@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 
 @end
 
@@ -27,7 +28,15 @@
 - (void)viewDidLoad
 {
     //self.navigationItem.
-    //self.tabBarController.tabBar.hidden=NO;
+    
+    [self.view setUserInteractionEnabled:YES];
+    
+    
+        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(backButton:)];
+        
+        [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
+        // [self.imageView addGestureRecognizer:swipeLeft];
+        [self.view addGestureRecognizer:swipeRight];
     NSLog(@"here!: %@",self.selectedMessage);
     self.titleLabel.text = [self.selectedMessage objectForKey:@"title"];
     self.textField.text = [self.selectedMessage objectForKey:@"story"];
@@ -38,6 +47,12 @@
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageFile.url]];
     
     
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM d yyyy" options:0 locale:nil];
+    
+    [formatter setDateFormat:dateFormat];
+    
+    self.dateLabel.text= [formatter stringFromDate:self.selectedMessage.createdAt];
     //self.imageView.image =
     
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -62,6 +77,18 @@
     
 }
 
+
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    FullStoryViewController *viewController = [segue destinationViewController];
+    //WritingViewController *viewController = [[WritingViewController alloc]init];
+    
+    viewController.selectedMessage = self.selectedMessage;
+   
+
+
+}
 
 /*
 #pragma mark - Navigation

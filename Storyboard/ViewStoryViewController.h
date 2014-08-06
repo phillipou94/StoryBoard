@@ -11,12 +11,24 @@
 
 @interface ViewStoryViewController : UIViewController
 @property (strong,nonatomic) PFObject *selectedMessage;
+@property(strong,nonatomic) UIImage *image;
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 @property (strong, nonatomic) IBOutlet UITextView *storyView;
 
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+
+@property (strong, nonatomic) IBOutlet UIButton *fullStoryButton;
+
+@property (strong, nonatomic) IBOutlet UIButton *fullPicture;
+
+@property (strong, nonatomic) IBOutlet UIButton *emptyHeartButton;
+
+@property (strong, nonatomic) IBOutlet UIButton *halfHeartButton;
+
+@property (strong, nonatomic) IBOutlet UIButton *fullHeart;
+
 
 
 @end
