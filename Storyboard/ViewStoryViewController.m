@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSMutableArray *likedStory;
 @property float likes;
 @property (nonatomic, strong) PFObject *currentUser;
+@property int initialLengthOfLikes;
 
 @end
 
@@ -63,25 +64,29 @@
     [formatter setDateFormat:dateFormat];
     
     self.dateLabel.text= [formatter stringFromDate:self.selectedMessage.createdAt];
+   
     
-    self.likes = [self.selectedMessage[@"numberOfLikes"] floatValue];
+    
+    
+    
 
    
 
     
-    NSLog(@"view did load:%@",self.selectedMessage.objectId);
+    //NSLog(@"view did load:%@",self.selectedMessage.objectId);
     // Do any additional setup after loading the view.
     
     if([self.selectedMessage[@"likedPhoto"] count]==0){
         self.likedPhoto =[[NSMutableArray alloc] init];
-        self.likedStory = [[NSMutableArray alloc] init];
+       
         
     }
     else{
         self.likedPhoto = [NSMutableArray arrayWithArray:self.selectedMessage[@"likedPhoto"] ];
-        self.likedStory = [NSMutableArray arrayWithArray:self.selectedMessage[@"likedStory"] ];
+      
     }
     self.likes = [self.selectedMessage[@"numberOfLikes"] floatValue];
+    self.initialLengthOfLikes = [self.selectedMessage[@"likedPhoto"] count];
 }
 
 #define kOFFSET_FOR_KEYBOARD 80.0
@@ -93,9 +98,9 @@
         
         CGRect rect = self.view.frame;
     CGRect storyRect = self.storyView.frame;
-    NSLog(@"%f",storyRect.origin.y);
+    //NSLog(@"%f",storyRect.origin.y);
    
-            NSLog(@"this is being showed");
+            //NSLog(@"this is being showed");
     
             // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
             // 2. increase the size of the view so that the area behind the keyboard is covered up.
@@ -110,17 +115,12 @@
             self.storyView.hidden=NO;
     self.smallerLabel.hidden=NO;
      self.imageView.hidden=YES;
+    self.likeButton2.hidden=NO;
+    self.heart.hidden=YES;
     self.view.frame = rect;
-    self.emptyHeartButton.hidden=YES;
-    self.fullHeart.hidden=YES;
     
-    if(self.emptyHeartButton.selected==YES){
-        self.halfHeartButton.hidden=NO;
-    }
     
         [UIView commitAnimations];
-    
-
     
            
     
@@ -136,7 +136,7 @@
     CGRect rect = self.view.frame;
     CGRect storyRect = self.storyView.frame;
     
-    NSLog(@"this is being showed");
+    //NSLog(@"this is being showed");
     
     self.imageView.hidden=NO;
     self.smallerLabel.hidden=YES;
@@ -151,11 +151,10 @@
     self.fullStoryButton.hidden=NO;
     self.fullPicture.hidden=YES;
     self.storyView.hidden=YES;
-    self.emptyHeartButton.hidden=NO;
-    self.halfHeartButton.hidden=YES;
-    if(self.halfHeartButton.selected==YES){
-        self.fullHeart.hidden=NO;
-        self.emptyHeartButton.hidden=YES;
+    
+    self.likeButton2.hidden=YES;
+    if(self.likeButton2.selected==YES){
+        self.heart.hidden=NO;
     }
     
     self.view.frame = rect;
@@ -190,31 +189,29 @@
 
 
 -(void) viewWillAppear:(BOOL)animated{
-    NSLog(@"view will appear");
+    //NSLog(@"view will appear");
     self.tabBarController.tabBar.hidden=NO;
+    
   
     
     self.titleLabel.text = [self.selectedMessage objectForKey:@"title"];
     self.smallerLabel.text = self.titleLabel.text;
     self.smallerLabel.hidden=YES;
     self.storyView.text = [self.selectedMessage objectForKey:@"story"];
-    self.halfHeartButton.hidden=YES;
-    self.emptyHeartButton.hidden=NO;
-    self.fullHeart.hidden=YES;
+   
+    self.likeButton2.hidden=YES;
+    
+    self.heart.hidden=YES;
+    if(self.likeButton2.selected==YES){
+        self.heart.hidden=NO;
+        
+    }
     
     if([self.likedPhoto containsObject:self.currentUser.objectId]){
-        self.emptyHeartButton.selected=YES;
+        self.likeButton2.selected=YES;
+        self.heart.hidden=NO;
     }
     
-    
-    if([self.likedStory containsObject:self.currentUser.objectId]){
-        self.halfHeartButton.selected=YES;
-    }
-    
-    if([self.likedPhoto containsObject:self.currentUser.objectId] &&[self.likedStory containsObject:self.currentUser.objectId]){
-        self.fullHeart.hidden=NO;
-        self.emptyHeartButton.hidden=YES;
-    }
     PFFile *imageFile = [self.selectedMessage objectForKey: @"file"];
     
     
@@ -258,7 +255,7 @@
     [super viewDidAppear:animated];
 }
 - (IBAction)fullPictureButton:(id)sender {
-    NSLog(@"touched");
+    //NSLog(@"touched");
    
     
         [self setViewMovedDown:YES];
@@ -284,26 +281,32 @@
     }
 }
 
-- (IBAction)emptyHeartButton:(id)sender {
-    if(![self.likedPhoto containsObject:self.currentUser.objectId]){
-        [self.likedPhoto addObject:self.currentUser.objectId];
-            self.emptyHeartButton.selected=YES;
-        self.likes +=0.5;
+
+
+
+- (IBAction)likeButton2:(id)sender {
+    //NSLog(@"liked");
+    if(self.likeButton2.selected==YES){
+        if([self.likedPhoto containsObject:self.currentUser.objectId])
+            self.likeButton2.selected=NO;
+            [self.likedPhoto removeObject:self.currentUser.objectId];
+            self.likes-=1;
+    }
+    else{
+        if(![self.likedPhoto containsObject:self.currentUser.objectId]){
+            [self.likedPhoto addObject:self.currentUser.objectId];
+            self.likeButton2.selected=YES;
+            self.likes +=1;}
+        }
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    if(self.initialLengthOfLikes!=[self.likedPhoto count]){
         [self.selectedMessage setObject: [NSNumber numberWithFloat:self.likes]forKey:@"numberOfLikes"];
         [self.selectedMessage setObject:[NSArray arrayWithArray:self.likedPhoto]forKey:@"likedPhoto"];
-        [self.selectedMessage saveInBackground];}
+        [self.selectedMessage saveInBackground];
+        NSLog(@"count different");}
 }
-
-- (IBAction)halfHeartbutton:(id)sender {
-    if(![self.likedStory containsObject:self.currentUser.objectId]){
-        [self.likedStory addObject:self.currentUser.objectId];
-        self.halfHeartButton.selected=YES;
-        self.likes +=0.5;
-        [self.selectedMessage setObject: [NSNumber numberWithFloat:self.likes]forKey:@"numberOfLikes"];
-        [self.selectedMessage setObject:[NSArray arrayWithArray:self.likedStory] forKey:@"likedStory"];
-        [self.selectedMessage saveInBackground];}
-}
-
 
 
 /*

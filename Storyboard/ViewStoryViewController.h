@@ -23,11 +23,10 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *fullPicture;
 
-@property (strong, nonatomic) IBOutlet UIButton *emptyHeartButton;
+@property (strong, nonatomic) IBOutlet UIButton *heart;
 
-@property (strong, nonatomic) IBOutlet UIButton *halfHeartButton;
 
-@property (strong, nonatomic) IBOutlet UIButton *fullHeart;
+@property (strong, nonatomic) IBOutlet UIButton *likeButton2;
 
 
 

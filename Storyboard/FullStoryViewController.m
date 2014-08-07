@@ -8,6 +8,7 @@
 
 #import "FullStoryViewController.h"
 #import "ViewStoryViewController.h"
+#import "Reachability.h"
 
 @interface FullStoryViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
@@ -37,7 +38,7 @@
         [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
         // [self.imageView addGestureRecognizer:swipeLeft];
         [self.view addGestureRecognizer:swipeRight];
-    NSLog(@"here!: %@",self.selectedMessage);
+    //NSLog(@"here!: %@",self.selectedMessage);
     self.titleLabel.text = [self.selectedMessage objectForKey:@"title"];
     self.textField.text = [self.selectedMessage objectForKey:@"story"];
     
@@ -89,16 +90,20 @@
 
 
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)viewWillAppear:(BOOL)animated{
+    if (![self connected]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There is no network connection" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    } else {
+        // connected, do some internet stuff
+    }
+    [super viewWillAppear:animated];
 }
-*/
+- (BOOL)connected{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return networkStatus != NotReachable;
+}
+
 
 @end

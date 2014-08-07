@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
-@interface FeedViewController : PFQueryTableViewController<CLLocationManagerDelegate>
+#import "SettingsViewController.h"
+@interface FeedViewController : PFQueryTableViewController<CLLocationManagerDelegate,MyDataDelegate>
 @property (strong, nonatomic) PFGeoPoint *selfLocation;
 @property (strong, nonatomic) PFUser *currentUser;
 + (void)geoPointForCurrentLocationInBackground:(void ( ^ ) ( PFGeoPoint *geoPoint , NSError *error ))geoPointHandler;
@@ -17,6 +18,8 @@
 @property (strong,nonatomic) PFObject *selectedMessage;
 @property (strong, nonatomic) NSArray *photosArray;
 @property int loadCount;
+
+
 
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentControl;

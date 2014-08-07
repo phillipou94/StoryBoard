@@ -8,9 +8,10 @@
 
 #import "SaveWritingViewController.h"
 #import <Parse/Parse.h>
+#import "Reachability.h"
 @interface SaveWritingViewController ()
 
-
+@property (nonatomic, strong) PFUser *currentUser;
 @end
 
 @implementation SaveWritingViewController
@@ -26,8 +27,8 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"%@",self.selectedMessage.objectId);
-  
+    //NSLog(@"%@",self.selectedMessage.objectId);
+    self.currentUser = [PFUser currentUser];
     self.textView.delegate = self;
     self.titleTextField.text = self.selectedMessage[@"title"];
     self.textView.text = self.selectedMessage[@"story"];
@@ -35,6 +36,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
+    self.initialTextLength = [self.selectedMessage[@"story"] length];
     
     [self.view addGestureRecognizer:tap];
     
@@ -99,7 +101,7 @@
     }
 }
 
-#define kOFFSET_FOR_KEYBOARD 80.0
+#define kOFFSET_FOR_KEYBOARD 124.0
 
 -(void)keyboardWillShow {
     // Animate the current view out of the way
@@ -126,8 +128,12 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)sender
 {
+    
+    
     if ([sender isEqual:self.textView])
     {
+        
+        
         //move the main view, so that the keyboard does not hide it.
         if  (self.view.frame.origin.y >= 0)
         {
@@ -163,6 +169,7 @@
         self.smallerImageView.hidden=NO;
        
     }
+        
     else
     {
         // revert back to the normal state.
@@ -173,6 +180,7 @@
         textViewRect.origin.x -= 51;
         self.smallerImageView.hidden=YES;
     }
+    
     self.view.frame = rect;
     
     [UIView commitAnimations];
@@ -195,6 +203,18 @@
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    if([self.currentUser[@"Anonymous"] isEqualToString:@"Yes"]){
+        self.anonymousLabel.hidden=NO;
+    }
+    else{
+        self.anonymousLabel.hidden=YES;
+    }
+    if (![self connected]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There is no network connection" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    } else {
+        // connected, do some internet stuff
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -208,14 +228,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardWillHideNotification
                                                   object:nil];
-     NSLog(@"view disappeared");
+    
  
-    if([self.textView.text length] !=0 ||[self.titleTextField.text length] !=0){
-         [self.selectedMessage setObject:[self.textView text] forKey:@"story"];
+    if([self.textView.text length] != self.initialTextLength){
+        [self.selectedMessage setObject:[self.textView text] forKey:@"story"];
         [self.selectedMessage setObject:self.titleTextField.text forKey:@"title"];
         [self.selectedMessage saveInBackground];
-        NSLog(@"saved");
+        //NSLog(@"saved!");
     }
+   
+        
+    
+    
    
 }
 
@@ -230,6 +254,7 @@
             
         }
     [self.textView becomeFirstResponder];
+    
     //[self.titleTextField becomeFirstResponder];
     
 }
@@ -244,9 +269,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 - (IBAction)shareButton:(id)sender {
     PFObject *message = [PFObject objectWithClassName:@"Messages"];
-    
+    PFUser *currentUser = [PFUser currentUser];
      PFFile *imageFile = [self.selectedMessage objectForKey: @"file"];
     message[@"file"] = imageFile;
     message[@"whoTook"]= [PFUser currentUser];
@@ -262,6 +289,9 @@
     [message setObject: [self.textView text] forKey:@"story"];
     
     [message setObject:[[PFUser currentUser] username] forKey:@"whoTookName"];
+    if([currentUser[@"Anonymous"] isEqualToString:@"Yes"]){
+        [message setObject:@"Anonymous" forKey:@"whoTookName"];
+    }
     [message saveInBackground];
     
    /* [self.selectedMessage setObject: @"sent" forKey:@"sent"];
@@ -280,7 +310,7 @@
 }
 
 - (IBAction)saveDraft:(id)sender {
-    NSLog(@"save clicked");
+    //NSLog(@"save clicked");
     [self.selectedMessage setObject:self.titleTextField.text forKey:@"title"];
     [self.selectedMessage setObject:[self.textView text] forKey:@"story"];
     [self.selectedMessage saveInBackground];
@@ -291,6 +321,11 @@
     [alertView show];
     
     
+}
+- (BOOL)connected{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return networkStatus != NotReachable;
 }
 
 

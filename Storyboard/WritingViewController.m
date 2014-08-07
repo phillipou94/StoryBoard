@@ -9,12 +9,13 @@
 #import "WritingViewController.h"
 #import "CameraViewController.h"
 #import <Parse/Parse.h>
+#import "Reachability.h"
 
 @interface WritingViewController ()
 
 
 @end
-
+static int clickcount;
 @implementation WritingViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -28,6 +29,7 @@
 
 - (void)viewDidLoad
 {
+    clickcount=0;
     self.currentUser = [PFUser currentUser];
     self.titleTextField.text= self.titleText;
     
@@ -51,11 +53,12 @@
     // [self.imageView addGestureRecognizer:swipeLeft];
     [self.view addGestureRecognizer:swipeDown];
     
-    NSLog(@"%@",self.messageLocation);
+    //NSLog(@"%@",self.messageLocation);
    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
+
 - (void)textViewDidChange:(UITextView *)textView {
     CGRect line = [textView caretRectForPosition:
                    textView.selectedTextRange.start];
@@ -74,7 +77,7 @@
     }
 }
 
-#define kOFFSET_FOR_KEYBOARD 80.0
+#define kOFFSET_FOR_KEYBOARD 124.0
 
 -(void)keyboardWillShow {
     // Animate the current view out of the way
@@ -160,11 +163,19 @@
     self.chosenImageView.image = self.chosenImage;
     self.smallerImageView.image = self.chosenImage;
     self.smallerImageView.hidden=YES;
+   
+    if([self.currentUser[@"Anonymous"] isEqualToString:@"Yes"]){
+        self.anonymousLabel.hidden=NO;
+    }
+    else{
+        self.anonymousLabel.hidden=YES;
+    }
+    
     [super viewWillAppear:animated];
    
     // ensures that after we take a photo it will go back to original viewcontroller to take pictures
     if(self.chosenImage==nil){
-        NSLog(@"going back!");
+        //NSLog(@"going back!");
         [self.navigationController popViewControllerAnimated:YES];
     }
     
@@ -231,7 +242,9 @@
 */
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    textView.text = @"";
+    if(clickcount==0){
+        textView.text = @"";}
+    clickcount++;
 }
 - (IBAction)shareButton:(id)sender {
     self.selectedMessage = [PFObject objectWithClassName:@"Messages"];
@@ -249,7 +262,10 @@
     [self.selectedMessage setObject: self.titleTextField.text forKey:@"title"];
     
     [self.selectedMessage setObject: [self.textView text] forKey:@"story"];
-    
+    //for anonymous users
+    if([self.currentUser[@"Anonymous"] isEqualToString:@"Yes"]){
+        [self.selectedMessage setObject:@"Anonymous" forKey:@"whoTookName"];
+    }
     
     [self.selectedMessage saveInBackground];
     

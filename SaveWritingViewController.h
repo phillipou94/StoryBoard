@@ -19,5 +19,8 @@
 @property (nonatomic, strong) PFObject *selectedMessage;
 @property (strong, nonatomic) IBOutlet UIImageView *smallerImageView;
 
+@property int initialTextLength;
+
+@property (strong, nonatomic) IBOutlet UIButton *anonymousLabel;
 
 @end

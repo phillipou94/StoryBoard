@@ -9,6 +9,7 @@
 #import "SavedTableViewController.h"
 #import "SaveWritingViewController.h"
 #import "AppDelegate.h"
+#import "Reachability.h"
 
 @interface SavedTableViewController ()
 
@@ -28,8 +29,14 @@
 -(void) viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = NO;
     self.currentUser = [PFUser currentUser];
-    NSLog(@"%@",self.currentUser.objectId);
+    //NSLog(@"%@",self.currentUser.objectId);
     [super viewWillAppear:animated];
+    if (![self connected]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There is no network connection" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    } else {
+        // connected, do some internet stuff
+    }
 }
 
 - (void)viewDidLoad
@@ -37,6 +44,13 @@
     self.tabBarController.tabBar.hidden = NO;
     
     [super viewDidLoad];
+    
+    UIBarButtonItem *newBackButton =
+    [[UIBarButtonItem alloc] initWithTitle:@"back"
+                                     style:UIBarButtonItemStylePlain
+                                    target:nil
+                                    action:nil];
+    [[self navigationItem] setBackBarButtonItem:newBackButton];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -69,7 +83,7 @@
     }
     
         self.loadCount++;
-        NSLog(@"searching");
+        //NSLog(@"searching");
         [query whereKey:@"sent" notEqualTo:@"sent"];
         [query whereKey:@"whoTookId" containsString: self.currentUser.objectId];
         [query orderByDescending:@"createdAt"];
@@ -110,6 +124,11 @@
     
     PFObject *message= self.objects[indexPath.row];
     titleLabel.text = message[@"title"];
+    if([message[@"title"] length]==0){
+        titleLabel.text = @"Untitled";
+    }
+    
+    
     
     UILabel *dateLabel = (UILabel*) [cell viewWithTag:2];
     
@@ -142,7 +161,7 @@
 
 -(void) tableView: (UITableViewCell *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"%d",indexPath.row);
+    //NSLog(@"%d",indexPath.row);
     self.selectedMessage= self.objects[indexPath.row];
     [self performSegueWithIdentifier:@"transition" sender:self];
     
@@ -159,7 +178,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSLog(@"deleting");
+        //NSLog(@"deleting");
         PFObject *objectToDelete = self.objects[indexPath.row];
        
         [objectToDelete deleteInBackground];
@@ -190,55 +209,10 @@
 
     
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (BOOL)connected{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return networkStatus != NotReachable;
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

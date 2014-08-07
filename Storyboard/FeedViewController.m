@@ -10,25 +10,32 @@
 #import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
 #import "AppDelegate.h"
+#import "SettingsViewController.h"
 #import "ViewStoryViewController.h"
+#import "Reachability.h"
 
-@interface FeedViewController ()
+@interface FeedViewController  ()
 @property (strong, nonatomic) IBOutlet UILabel *usernamelabel;
+@property float searchRadius;
 
 @end
 static PFGeoPoint *geoPoint;
 
+//extern int searchRadius;
 @implementation FeedViewController
+
+
+
 
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        NSLog(@"This is called first");
+        //NSLog(@"This is called first");
         [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
             
-            NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+            //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
             self.selfLocation=geoPoint;
             [self.currentUser setObject:geoPoint forKey:@"currentLocation"];
             [self.currentUser saveInBackground];
@@ -45,6 +52,13 @@ static PFGeoPoint *geoPoint;
     
     return self;
 }
+//receive data from Settings View Controller (delegate called MyDataDelegate)
+- (void)recieveData:(float)searchRadius {
+    //NSLog(@"SEARCH RADIUS: %.01f",self.searchRadius);
+    self.searchRadius = searchRadius;
+    
+    //Do something with data here
+}
 
 - (void)viewDidLoad
 {
@@ -55,7 +69,17 @@ static PFGeoPoint *geoPoint;
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [UIFont fontWithName:@"Verdana" size:20.0], NSFontAttributeName, nil]];
+    
+    UIBarButtonItem *newBackButton =
+    [[UIBarButtonItem alloc] initWithTitle:@"back"
+                                     style:UIBarButtonItemStylePlain
+                                    target:nil
+                                    action:nil];
+    [[self navigationItem] setBackBarButtonItem:newBackButton];
+    
    
+    
+        self.searchRadius =1.0;
     
 
     self.currentUser=[PFUser currentUser];
@@ -63,13 +87,14 @@ static PFGeoPoint *geoPoint;
     self.tabBarController.tabBar.hidden=NO;
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         
-        NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+        //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
         self.selfLocation=geoPoint;
         [self.currentUser setObject:geoPoint forKey:@"currentLocation"];
         [self.currentUser saveInBackground];
         
     }];
     [super viewDidLoad];
+    
     self.messagesNear=[[NSMutableArray alloc]init];
     
 
@@ -95,11 +120,22 @@ static PFGeoPoint *geoPoint;
     if(self.objects.count==0){
         
     }
+    
+    if (![self connected]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There is no network connection" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    } else {
+        // connected, do some internet stuff
+    }
    
    
 }
 
-
+- (BOOL)connected{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return networkStatus != NotReachable;
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -123,7 +159,7 @@ static PFGeoPoint *geoPoint;
 
 
 -(PFQuery*)queryForTable{
-    
+   // NSLog(@"search radius: %f",self.searchRadius);
     
     PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
     // Interested in locations near user.
@@ -135,22 +171,22 @@ static PFGeoPoint *geoPoint;
     }*/
 
     if(self.selfLocation!=nil){
-        NSLog(@"%d",self.segmentControl.selectedSegmentIndex);
+        //NSLog(@"%d",self.segmentControl.selectedSegmentIndex);
         switch (self.segmentControl.selectedSegmentIndex) {
-        NSLog(@"searching");
+        //NSLog(@"searching");
             case 0:
-                [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:1];
+                [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:self.searchRadius];
                 [query orderByDescending:@"createdAt"];
-                NSLog(@"%@",self.messagesNear);
-                //query.limit=20;
+                //NSLog(@"%@",self.messagesNear);
+                query.limit=100;
                 return query;
                 break;
             case 1:
-                [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:1];
+                [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:self.searchRadius];
                 [query orderByDescending:@"numberOfLikes"];
                 //[query orderByDescending:@"createdAt"];
-                NSLog(@"%@",self.messagesNear);
-                //query.limit=20;
+                //NSLog(@"%@",self.messagesNear);
+                query.limit=100;
                 return query;
                 break;
         }
@@ -163,13 +199,13 @@ static PFGeoPoint *geoPoint;
 
 - (IBAction)discoverButton:(id)sender {
     //get user location
-    NSLog(@"button Pressed");
+    //NSLog(@"button Pressed");
     self.loadCount++;
     
     
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         
-            NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+            //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
         self.selfLocation=geoPoint;
             [self.currentUser setObject:geoPoint forKey:@"currentLocation"];
             [self.currentUser saveInBackground];
@@ -210,13 +246,22 @@ static PFGeoPoint *geoPoint;
     UILabel *titleLabel = (UILabel*)[cell viewWithTag:2];
     UILabel *nameLabel = (UILabel*)[cell viewWithTag:3];
     
+    
     titleLabel.text= message[@"title"];
-    titleLabel.adjustsFontSizeToFitWidth=YES;
+    
     nameLabel.text = message[@"whoTookName"];
+    
+   
     nameLabel.adjustsFontSizeToFitWidth=YES;
     
-    UILabel *dateLabel = (UILabel*) [cell viewWithTag:4];
     
+    UILabel *dateLabel = (UILabel*) [cell viewWithTag:4];
+    UILabel *likeLabel = (UILabel*)[cell viewWithTag:5];
+    NSNumber *numLikes = message[@"numberOfLikes"];
+    likeLabel.text = [NSString stringWithFormat:@"%@",numLikes];
+    if(numLikes==nil){
+        likeLabel.text = @"0";
+    }
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM/dd 'at' HH mm" options:0 locale:nil];
     
@@ -241,9 +286,9 @@ static PFGeoPoint *geoPoint;
 
 -(void) tableView: (UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"%d",indexPath.row);
+    //NSLog(@"%d",indexPath.row);
     self.selectedMessage= self.objects[indexPath.row];
-    NSLog(@"%@",self.selectedMessage.objectId);
+    //NSLog(@"%@",self.selectedMessage.objectId);
     [self performSegueWithIdentifier:@"transition" sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -258,7 +303,19 @@ static PFGeoPoint *geoPoint;
        
         viewController.selectedMessage = self.selectedMessage;
            }
+    else{
+        //NSLog(@"called");
+        SettingsViewController *other = segue.destinationViewController;
+        
+        other.searchRadius = self.searchRadius;
+        
+        if ([other isKindOfClass:[SettingsViewController class]]) {
+            other.delegate = self;
+        }
+    }
 }
+
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

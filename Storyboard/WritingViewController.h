@@ -21,4 +21,5 @@
 @property (strong, nonatomic) IBOutlet UIImageView *smallerImageView;
 @property (strong, nonatomic) PFObject *selectedMessage;
 
+@property (strong, nonatomic) IBOutlet UIButton *anonymousLabel;
 @end

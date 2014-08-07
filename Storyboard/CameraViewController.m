@@ -39,6 +39,9 @@
 {
     self.whereAreYouTextField.delegate = self;
     [super viewDidLoad];
+    
+   
+   
     // Do any additional setup after loading the view.
 }
 -(void)dismissKeyboard {
@@ -105,13 +108,13 @@
 //person finished taking picture
 -(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     self.chosenImage = info[UIImagePickerControllerEditedImage];
-    NSLog(@"%@",self.chosenImage);
+    //NSLog(@"%@",self.chosenImage);
     self.chosenImageView.image = self.chosenImage;
     [self dismissViewControllerAnimated:YES completion: nil];
     
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         
-        NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
+        //NSLog(@"User is currently at %f, %f", geoPoint.latitude, geoPoint.longitude);
         self.messageLocation = geoPoint;
     }];
     
@@ -140,7 +143,7 @@
     if([segue.identifier isEqualToString:@"transition"]){
     WritingViewController *viewController = [segue destinationViewController];
     //WritingViewController *viewController = [[WritingViewController alloc]init];
-        NSLog(@"%@",self.chosenImage);
+        //NSLog(@"%@",self.chosenImage);
     viewController.chosenImage=self.chosenImage;
     viewController.messageLocation = self.messageLocation;
     viewController.titleText= self.titleTextField.text;
