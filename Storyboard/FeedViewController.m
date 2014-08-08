@@ -62,8 +62,9 @@ static PFGeoPoint *geoPoint;
 
 - (void)viewDidLoad
 {
-    
-    
+   /* self.discoverButton.layer.borderWidth=1.0f;
+    self.discoverButton.layer.borderColor=[[UIColor blackColor] CGColor];*/
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:45/255.0 green:67/255.0  blue:101/255.0  alpha:1]]; //45,67,101
     //[[UITabBar appearance] setBarTintColor:[UIColor yellowColor]];
     
@@ -199,7 +200,7 @@ static PFGeoPoint *geoPoint;
 
 - (IBAction)discoverButton:(id)sender {
     //get user location
-    //NSLog(@"button Pressed");
+    NSLog(@"button Pressed");
     self.loadCount++;
     
     
@@ -214,8 +215,20 @@ static PFGeoPoint *geoPoint;
     
     [self loadObjects];
     
+    //prevents user from spamming discover button
+    //disables it for 4 seconds
+    [self.discoverButton setEnabled:NO];
+    [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(setButtonEnabled) userInfo:nil repeats:NO];
+    
+ 
+    
    
 }
+
+-(void)setButtonEnabled{
+    [self.discoverButton setEnabled:YES];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -248,6 +261,8 @@ static PFGeoPoint *geoPoint;
     
     
     titleLabel.text= message[@"title"];
+    titleLabel.adjustsFontSizeToFitWidth=YES;
+    
     
     nameLabel.text = message[@"whoTookName"];
     
@@ -316,54 +331,7 @@ static PFGeoPoint *geoPoint;
 }
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 @end

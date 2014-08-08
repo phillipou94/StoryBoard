@@ -23,7 +23,7 @@
 
 @end
 
-
+static int clickCount;
 @implementation CameraViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -37,13 +37,15 @@
 
 - (void)viewDidLoad
 {
-    self.whereAreYouTextField.delegate = self;
+
     [super viewDidLoad];
     
-   
+   self.titleTextField.delegate = self;
    
     // Do any additional setup after loading the view.
 }
+
+
 -(void)dismissKeyboard {
     [self.whereAreYouTextField resignFirstResponder];
     
@@ -162,6 +164,11 @@
    
     [self performSegueWithIdentifier:@"transition" sender:self];
      [self clear];
+}
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
 }
 
 

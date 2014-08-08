@@ -73,6 +73,7 @@
          self.anonymousLabel.hidden=YES;
         
     }
+    [self.slider setValue:self.searchRadius];
     [super viewWillAppear:animated];
 }
 - (void)didReceiveMemoryWarning
@@ -103,7 +104,7 @@
     }
     if(![self.initialState isEqualToString:self.currentUser[@"Anonymous"]]){
         [self.currentUser saveInBackground];
-        //NSLog(@"changed");
+        NSLog(@"changed");
     }
     //NSLog(@"didn't change");
 }
@@ -127,6 +128,16 @@
 }
 
 
+- (IBAction)anonSwitch:(id)sender {
+    if(self.anonSwitch.isOn==NO){
+        self.anonymousLabel.hidden=YES;
+        
+    }
+    if(self.anonSwitch.isOn==YES){
+        self.anonymousLabel.hidden=NO;
+        
+    }
+}
 
 
 

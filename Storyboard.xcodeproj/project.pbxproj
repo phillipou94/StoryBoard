@@ -49,6 +49,8 @@
 		4D86BD561992D35C001735BC /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D86BD521992D35C001735BC /* menu.png */; };
 		4D86BD571992D35C001735BC /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D86BD531992D35C001735BC /* settings.png */; };
 		4D86BD591992EE55001735BC /* anonymouslogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D86BD581992EE55001735BC /* anonymouslogo.png */; };
+		4DADA48E1993E45B0076D89C /* dopeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DADA48D1993E45B0076D89C /* dopeButton.png */; };
+		4DADA4901993E7CB0076D89C /* dopeButtonHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DADA48F1993E7CB0076D89C /* dopeButtonHighlighted.png */; };
 		4DB5FE0719914BA3006B0A64 /* browser-download-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DB5FE0619914BA3006B0A64 /* browser-download-2.png */; };
 		4DB5FE0919914BC6006B0A64 /* browser-download-2s.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DB5FE0819914BC6006B0A64 /* browser-download-2s.png */; };
 		4DD459081990785B0090B490 /* heart-emptyb copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD459061990785B0090B490 /* heart-emptyb copy.png */; };
@@ -61,7 +63,6 @@
 		4DDB8CCF198DE308003DDEA6 /* FullStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB8CCE198DE308003DDEA6 /* FullStoryViewController.m */; };
 		4DDB8CDC198E2720003DDEA6 /* helsinki.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CDA198E2720003DDEA6 /* helsinki.ttf */; };
 		4DDB8CDF198E2CE8003DDEA6 /* firesky.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CDE198E2CE8003DDEA6 /* firesky.png */; };
-		4DDB8CE1198E2ED7003DDEA6 /* scenery.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CE0198E2ED7003DDEA6 /* scenery.png */; };
 		4DDB8CE3198E4888003DDEA6 /* quill.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CE2198E4888003DDEA6 /* quill.png */; };
 		4DDB8CE5198E64BC003DDEA6 /* browser-upload-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CE4198E64BC003DDEA6 /* browser-upload-2.png */; };
 		4DDB8CE7198E684B003DDEA6 /* browser-upload-2s.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CE6198E684B003DDEA6 /* browser-upload-2s.png */; };
@@ -130,6 +131,8 @@
 		4D86BD521992D35C001735BC /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu.png; path = "../Batch-master/PNG/64x64/menu.png"; sourceTree = "<group>"; };
 		4D86BD531992D35C001735BC /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings.png; path = "../Batch-master/PNG/64x64/settings.png"; sourceTree = "<group>"; };
 		4D86BD581992EE55001735BC /* anonymouslogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = anonymouslogo.png; path = "../Batch-master/PNG/64x64/anonymouslogo.png"; sourceTree = "<group>"; };
+		4DADA48D1993E45B0076D89C /* dopeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dopeButton.png; path = ../../Downloads/dopeButton.png; sourceTree = "<group>"; };
+		4DADA48F1993E7CB0076D89C /* dopeButtonHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dopeButtonHighlighted.png; path = ../../Downloads/dopeButtonHighlighted.png; sourceTree = "<group>"; };
 		4DB5FE0619914BA3006B0A64 /* browser-download-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "browser-download-2.png"; path = "../Batch-master/PNG/32x32/browser-download-2.png"; sourceTree = "<group>"; };
 		4DB5FE0819914BC6006B0A64 /* browser-download-2s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "browser-download-2s.png"; path = "../Batch-master/PNG/16x16/browser-download-2s.png"; sourceTree = "<group>"; };
 		4DD459061990785B0090B490 /* heart-emptyb copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "heart-emptyb copy.png"; path = "../Batch-master/PNG/32x32/heart-emptyb copy.png"; sourceTree = "<group>"; };
@@ -148,7 +151,6 @@
 		4DDB8CCE198DE308003DDEA6 /* FullStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullStoryViewController.m; sourceTree = "<group>"; };
 		4DDB8CDA198E2720003DDEA6 /* helsinki.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = helsinki.ttf; sourceTree = "<group>"; };
 		4DDB8CDE198E2CE8003DDEA6 /* firesky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = firesky.png; path = ../../Downloads/firesky.png; sourceTree = "<group>"; };
-		4DDB8CE0198E2ED7003DDEA6 /* scenery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = scenery.png; path = ../../Downloads/scenery.png; sourceTree = "<group>"; };
 		4DDB8CE2198E4888003DDEA6 /* quill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = quill.png; path = "../Batch-master/PNG/32x32/quill.png"; sourceTree = "<group>"; };
 		4DDB8CE4198E64BC003DDEA6 /* browser-upload-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "browser-upload-2.png"; path = "../Batch-master/PNG/32x32/browser-upload-2.png"; sourceTree = "<group>"; };
 		4DDB8CE6198E684B003DDEA6 /* browser-upload-2s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "browser-upload-2s.png"; path = "../Batch-master/PNG/16x16/browser-upload-2s.png"; sourceTree = "<group>"; };
@@ -311,7 +313,6 @@
 				4DDB8CE4198E64BC003DDEA6 /* browser-upload-2.png */,
 				4DDB8CE6198E684B003DDEA6 /* browser-upload-2s.png */,
 				4DDB8CE2198E4888003DDEA6 /* quill.png */,
-				4DDB8CE0198E2ED7003DDEA6 /* scenery.png */,
 				4DDB8CDE198E2CE8003DDEA6 /* firesky.png */,
 				4D319240198E8E6C002E1797 /* signup.png */,
 				4D6C94891991DA9800D4FF56 /* heart-emptyb copy.png */,
@@ -322,6 +323,8 @@
 				4D86BD521992D35C001735BC /* menu.png */,
 				4D86BD581992EE55001735BC /* anonymouslogo.png */,
 				4D86BD531992D35C001735BC /* settings.png */,
+				4DADA48D1993E45B0076D89C /* dopeButton.png */,
+				4DADA48F1993E7CB0076D89C /* dopeButtonHighlighted.png */,
 				4DDB8CD9198E2720003DDEA6 /* Helsinki */,
 			);
 			name = Art;
@@ -383,6 +386,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Philip Ou";
 				TargetAttributes = {
+					4D79B1F6198D61DF008A8BCA = {
+						DevelopmentTeam = F6J9Z7FPQB;
+					};
 					4D79B21A198D61DF008A8BCA = {
 						TestTargetID = 4D79B1F6198D61DF008A8BCA;
 					};
@@ -414,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D79B216198D61DF008A8BCA /* Images.xcassets in Resources */,
+				4DADA4901993E7CB0076D89C /* dopeButtonHighlighted.png in Resources */,
 				4D6C948E1991DA9800D4FF56 /* heart-half-color.png in Resources */,
 				4DB5FE0719914BA3006B0A64 /* browser-download-2.png in Resources */,
 				4D6C948D1991DA9800D4FF56 /* heart-fullb copy.png in Resources */,
@@ -423,6 +430,7 @@
 				4DDB8CE3198E4888003DDEA6 /* quill.png in Resources */,
 				4D86BD561992D35C001735BC /* menu.png in Resources */,
 				4D79B205198D61DF008A8BCA /* InfoPlist.strings in Resources */,
+				4DADA48E1993E45B0076D89C /* dopeButton.png in Resources */,
 				4D86BD551992D35C001735BC /* cloud.png in Resources */,
 				4DDB8CE5198E64BC003DDEA6 /* browser-upload-2.png in Resources */,
 				4D6C948C1991DA9800D4FF56 /* heart-emptyb copy.png in Resources */,
@@ -430,7 +438,6 @@
 				4DDB8CDF198E2CE8003DDEA6 /* firesky.png in Resources */,
 				4D79B20E198D61DF008A8BCA /* Main.storyboard in Resources */,
 				4D86BD541992D35C001735BC /* camera.png in Resources */,
-				4DDB8CE1198E2ED7003DDEA6 /* scenery.png in Resources */,
 				4DDB8CDC198E2720003DDEA6 /* helsinki.ttf in Resources */,
 				4D319243198E975F002E1797 /* draftsBanner.png in Resources */,
 				4D86BD571992D35C001735BC /* settings.png in Resources */,
@@ -591,7 +598,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/phillipou/Downloads,
@@ -601,7 +610,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Storyboard/Storyboard-Prefix.pch";
 				INFOPLIST_FILE = "Storyboard/Storyboard-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -610,7 +622,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/phillipou/Downloads,
@@ -620,7 +634,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Storyboard/Storyboard-Prefix.pch";
 				INFOPLIST_FILE = "Storyboard/Storyboard-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

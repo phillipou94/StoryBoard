@@ -97,6 +97,7 @@
     } else {
         // connected, do some internet stuff
     }
+    
     [super viewWillAppear:animated];
 }
 - (BOOL)connected{

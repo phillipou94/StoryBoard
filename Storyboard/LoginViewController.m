@@ -35,6 +35,8 @@
                                    action:@selector(dismissKeyboard)];
     
     [self.view addGestureRecognizer:tap];
+    self.usernameTextField.delegate = self;
+    self.passwordTextField.delegate = self;
     
     
         [super viewDidLoad];
@@ -91,6 +93,11 @@
 - (IBAction)login:(id)sender {
     NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if([username rangeOfString:@"@"].location!=NSNotFound){
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter a username, not an email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+    else{
     if(username.length !=0 && password.length !=0){
         PFUser *user = [PFUser user];
         user.username = username;
@@ -111,7 +118,12 @@
         [alertView show];
     }
 
+    }
+}
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
     
+    [textField resignFirstResponder];
+    return YES;
 }
 
 - (IBAction)signup:(id)sender {

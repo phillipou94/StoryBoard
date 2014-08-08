@@ -20,6 +20,7 @@
 @property int loadCount;
 
 
+@property (strong, nonatomic) IBOutlet UIButton *discoverButton;
 
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentControl;

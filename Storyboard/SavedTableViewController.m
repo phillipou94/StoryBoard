@@ -27,23 +27,28 @@
     return self;
 }
 -(void) viewWillAppear:(BOOL)animated{
+    
     self.tabBarController.tabBar.hidden = NO;
     self.currentUser = [PFUser currentUser];
     //NSLog(@"%@",self.currentUser.objectId);
     [super viewWillAppear:animated];
+    NSLog(@"%@",self.currentUser.objectId);
     if (![self connected]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There is no network connection" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
     } else {
         // connected, do some internet stuff
     }
+   
 }
 
 - (void)viewDidLoad
 {
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tabBarController.tabBar.hidden = NO;
     
     [super viewDidLoad];
+    
     
     UIBarButtonItem *newBackButton =
     [[UIBarButtonItem alloc] initWithTitle:@"back"
@@ -76,20 +81,23 @@
     PFQuery *query = [PFQuery queryWithClassName:@"SavedMessages"];
     // Interested in locations near user.
     
-    // Limit what could be a lot of points.
-    //query.limit = 10;
-    if (self.objects.count == 0) {
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    if(self.loadCount==0){
+        NSLog(@"this is being called by query");
+        [query whereKey:@"whoTookId" containsString:@"whotookiddddd"];
+        query.limit=0;
+        self.loadCount++;
+        return query;
     }
-    
+    else{
         self.loadCount++;
         //NSLog(@"searching");
         [query whereKey:@"sent" notEqualTo:@"sent"];
         [query whereKey:@"whoTookId" containsString: self.currentUser.objectId];
         [query orderByDescending:@"createdAt"];
         query.limit=20;
+        self.showDraftsButton.hidden=YES;
     
-    return query;
+        return query;}
 }
 
 
@@ -127,6 +135,8 @@
     if([message[@"title"] length]==0){
         titleLabel.text = @"Untitled";
     }
+    titleLabel.adjustsFontSizeToFitWidth=YES;
+    
     
     
     
@@ -213,6 +223,9 @@
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus networkStatus = [reachability currentReachabilityStatus];
     return networkStatus != NotReachable;
+}
+- (IBAction)showDrafts:(id)sender {
+    [self loadObjects];
 }
 
 @end
