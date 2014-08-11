@@ -1,21 +1,20 @@
 //
-//  SavedTableViewController.m
-//  Storyboard
+//  ProfileTableViewController.m
+//  Storyview
 //
-//  Created by Phillip Ou on 8/2/14.
+//  Created by Phillip Ou on 8/10/14.
 //  Copyright (c) 2014 Philip Ou. All rights reserved.
 //
 
-#import "SavedTableViewController.h"
-#import "SaveWritingViewController.h"
-#import "AppDelegate.h"
-#import "Reachability.h"
+#import "ProfileTableViewController.h"
+#import "ViewStoryViewController.h"
 
-@interface SavedTableViewController ()
+
+@interface ProfileTableViewController ()
 
 @end
 
-@implementation SavedTableViewController
+@implementation ProfileTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -33,13 +32,13 @@
     //NSLog(@"%@",self.currentUser.objectId);
     [super viewWillAppear:animated];
     NSLog(@"%@",self.currentUser.objectId);
-    if (![self connected]) {
+   /* if (![self connected]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There is no network connection" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
     } else {
         // connected, do some internet stuff
-    }
-   
+    }*/
+    
 }
 
 - (void)viewDidLoad
@@ -56,15 +55,9 @@
                                     target:nil
                                     action:nil];
     [[self navigationItem] setBackBarButtonItem:newBackButton];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
+  }
 -(void) viewDidAppear:(BOOL)animated{
-    //[self loadObjects];
+    
     
     [super viewDidAppear:animated];
 }
@@ -78,7 +71,7 @@
 -(PFQuery*)queryForTable{
     
     
-    PFQuery *query = [PFQuery queryWithClassName:@"SavedMessages"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
     // Interested in locations near user.
     
     if(self.loadCount==0){
@@ -91,13 +84,12 @@
     else{
         self.loadCount++;
         //NSLog(@"searching");
-        [query whereKey:@"sent" notEqualTo:@"sent"];
         [query whereKey:@"whoTookId" containsString: self.currentUser.objectId];
         [query orderByDescending:@"createdAt"];
         query.limit=20;
-        self.showDraftsButton.hidden=YES;
-        self.showDraftsIcon.hidden=YES;
-    
+        self.showStoryButton.hidden=YES;
+        self.showStoryIcon.hidden=YES;
+        
         return query;}
 }
 
@@ -106,14 +98,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
+    
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
+    
     // Return the number of rows in the section.
     return [self.objects count];
 }
@@ -127,7 +119,7 @@
     if(self.loadCount!=0){
         cell.hidden=NO;
     }
-   
+    
     UILabel *titleLabel = (UILabel*) [cell viewWithTag:3];
     
     
@@ -144,13 +136,13 @@
     UILabel *dateLabel = (UILabel*) [cell viewWithTag:2];
     
     
-   
-
+    
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM/dd 'at' HH mm" options:0 locale:nil];
-                                  
+    
     [formatter setDateFormat:dateFormat];
-  
+    
     dateLabel.text= [formatter stringFromDate:message.createdAt];
     
     
@@ -174,7 +166,7 @@
     
     //NSLog(@"%d",indexPath.row);
     self.selectedMessage= self.objects[indexPath.row];
-    [self performSegueWithIdentifier:@"transition" sender:self];
+    [self performSegueWithIdentifier:@"fromProfile" sender:self];
     
     
 }
@@ -183,7 +175,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     return YES;
 }
 
@@ -191,7 +183,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //NSLog(@"deleting");
         PFObject *objectToDelete = self.objects[indexPath.row];
-       
+        
         [objectToDelete deleteInBackground];
         [self loadObjects];
         
@@ -201,32 +193,20 @@
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:@"transition"]){
-        SaveWritingViewController *viewController = [segue destinationViewController];
+    if([segue.identifier isEqualToString:@"fromProfile"]){
+        ViewStoryViewController *viewController = [segue destinationViewController];
         //WritingViewController *viewController = [[WritingViewController alloc]init];
         
         viewController.selectedMessage = self.selectedMessage;
     }
+    
 }
 
-- (IBAction)logout:(id)sender {
-    
-    [PFUser logOut];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *loginNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"loginNav"];
-    [self presentViewController:loginNavigationController animated:NO completion:nil];
-    
-    
 
-    
-}
-- (BOOL)connected{
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
-    return networkStatus != NotReachable;
-}
-- (IBAction)showDrafts:(id)sender {
+
+- (IBAction)showStories:(id)sender {
     [self loadObjects];
 }
+
 
 @end

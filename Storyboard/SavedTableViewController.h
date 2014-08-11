@@ -14,5 +14,6 @@
 @property (nonatomic, strong) PFObject *selectedMessage;
 @property int loadCount;
 @property (strong, nonatomic) IBOutlet UIButton *showDraftsButton;
+@property (strong, nonatomic) IBOutlet UIButton *showDraftsIcon;
 
 @end

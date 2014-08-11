@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D79B1F6198D61DF008A8BCA"
-               BuildableName = "Storyboard.app"
-               BlueprintName = "Storyboard"
-               ReferencedContainer = "container:Storyboard.xcodeproj">
+               BuildableName = "Storyview.app"
+               BlueprintName = "Storyview"
+               ReferencedContainer = "container:Storyview.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D79B21A198D61DF008A8BCA"
-               BuildableName = "StoryboardTests.xctest"
-               BlueprintName = "StoryboardTests"
-               ReferencedContainer = "container:Storyboard.xcodeproj">
+               BuildableName = "StoryviewTests.xctest"
+               BlueprintName = "StoryviewTests"
+               ReferencedContainer = "container:Storyview.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D79B1F6198D61DF008A8BCA"
-            BuildableName = "Storyboard.app"
-            BlueprintName = "Storyboard"
-            ReferencedContainer = "container:Storyboard.xcodeproj">
+            BuildableName = "Storyview.app"
+            BlueprintName = "Storyview"
+            ReferencedContainer = "container:Storyview.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D79B1F6198D61DF008A8BCA"
-            BuildableName = "Storyboard.app"
-            BlueprintName = "Storyboard"
-            ReferencedContainer = "container:Storyboard.xcodeproj">
+            BuildableName = "Storyview.app"
+            BlueprintName = "Storyview"
+            ReferencedContainer = "container:Storyview.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D79B1F6198D61DF008A8BCA"
-            BuildableName = "Storyboard.app"
-            BlueprintName = "Storyboard"
-            ReferencedContainer = "container:Storyboard.xcodeproj">
+            BuildableName = "Storyview.app"
+            BlueprintName = "Storyview"
+            ReferencedContainer = "container:Storyview.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

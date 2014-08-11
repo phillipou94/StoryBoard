@@ -14,6 +14,8 @@
 @interface SettingsViewController ()
 @property (nonatomic, strong) PFUser *currentUser;
 @property (nonatomic, strong) NSString *initialState;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentController;
+@property int preference;
 
 
 
@@ -62,6 +64,16 @@
     
     
 }
+
+- (IBAction)segmentChanged:(id)sender {
+   // NSLog(@"%d",self.segmentController.selectedSegmentIndex);
+    [self.preferenceDelegate receivePreference: self.segmentController.selectedSegmentIndex];
+    //[self.delegate recieveData:self.segmentController.selectedSegmentIndex];
+    
+    
+}
+
+
 -(void)viewWillAppear:(BOOL)animated{
  if([self.currentUser[@"Anonymous"]isEqualToString:@"Yes"]){
         [self.anonSwitch setOn:YES];
@@ -73,6 +85,9 @@
          self.anonymousLabel.hidden=YES;
         
     }
+        self.preference=[self.currentUser[@"preferencesIndex"] integerValue];
+    [self.segmentController setSelectedSegmentIndex:self.preference];
+
     [self.slider setValue:self.searchRadius];
     [super viewWillAppear:animated];
 }
@@ -102,9 +117,11 @@
     else{
         [self.currentUser setObject:@"No" forKey:@"Anonymous"];
     }
-    if(![self.initialState isEqualToString:self.currentUser[@"Anonymous"]]){
+    [self.currentUser setObject:[NSNumber numberWithInteger:self.segmentController.selectedSegmentIndex] forKey:@"preferencesIndex"];
+    
+    if(![self.initialState isEqualToString:self.currentUser[@"Anonymous"]]|| self.preference!=[self.currentUser[@"preferencesIndex"] intValue]){
         [self.currentUser saveInBackground];
-        NSLog(@"changed");
+        //NSLog(@"changed");
     }
     //NSLog(@"didn't change");
 }

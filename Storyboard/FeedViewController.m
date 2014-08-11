@@ -59,7 +59,12 @@ static PFGeoPoint *geoPoint;
     
     //Do something with data here
 }
-
+-(void) receivePreference: (NSInteger) indexNum{
+    //NSLog(@"%d",indexNum);
+    
+    self.preferenceIndex = indexNum;
+    
+}
 - (void)viewDidLoad
 {
    /* self.discoverButton.layer.borderWidth=1.0f;
@@ -95,6 +100,8 @@ static PFGeoPoint *geoPoint;
         
     }];
     [super viewDidLoad];
+    
+    self.preferenceIndex=[self.currentUser[@"preferencesIndex"] intValue];
     
     self.messagesNear=[[NSMutableArray alloc]init];
     
@@ -163,13 +170,6 @@ static PFGeoPoint *geoPoint;
    // NSLog(@"search radius: %f",self.searchRadius);
     
     PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
-    // Interested in locations near user.
-    
-    // Limit what could be a lot of points.
-    //query.limit = 10;
-   /* if (self.objects.count == 0) {
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    }*/
 
     if(self.selfLocation!=nil){
         //NSLog(@"%d",self.segmentControl.selectedSegmentIndex);
@@ -180,7 +180,7 @@ static PFGeoPoint *geoPoint;
                 [query orderByDescending:@"createdAt"];
                 //NSLog(@"%@",self.messagesNear);
                 query.limit=100;
-                return query;
+               // return query;
                 break;
             case 1:
                 [query whereKey:@"location" nearGeoPoint:self.selfLocation withinMiles:self.searchRadius];
@@ -188,7 +188,20 @@ static PFGeoPoint *geoPoint;
                 //[query orderByDescending:@"createdAt"];
                 //NSLog(@"%@",self.messagesNear);
                 query.limit=100;
-                return query;
+                //return query;
+                
+                break;
+            case 2:
+                [query whereKey:@"whoTookId" equalTo:self.currentUser.objectId];
+                
+                if(self.preferenceIndex==0){
+                    [query orderByDescending:@"createdAt"];
+                }
+                else{
+                    [query orderByDescending:@"numberOfLikes"];
+                }
+                query.limit=100;
+               // return query;
                 break;
         }
     
@@ -200,7 +213,7 @@ static PFGeoPoint *geoPoint;
 
 - (IBAction)discoverButton:(id)sender {
     //get user location
-    NSLog(@"button Pressed");
+    //NSLog(@"button Pressed");
     self.loadCount++;
     
     
@@ -244,6 +257,8 @@ static PFGeoPoint *geoPoint;
     return [self.objects count];
     
 }
+
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -324,9 +339,14 @@ static PFGeoPoint *geoPoint;
         
         other.searchRadius = self.searchRadius;
         
+        //allows access to delegate from freeviewcontroller
         if ([other isKindOfClass:[SettingsViewController class]]) {
             other.delegate = self;
+            other.preferenceDelegate=self;
+            
         }
+       
+        
     }
 }
 

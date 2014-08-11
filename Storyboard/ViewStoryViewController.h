@@ -25,6 +25,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *heart;
 
+@property (strong, nonatomic) IBOutlet UIButton *fullStoryIcon;
 
 @property (strong, nonatomic) IBOutlet UIButton *likeButton2;
 

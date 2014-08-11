@@ -23,7 +23,7 @@
 
 @end
 
-static int clickCount;
+
 @implementation CameraViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

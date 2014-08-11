@@ -40,6 +40,7 @@
         [self.view addGestureRecognizer:swipeRight];
     //NSLog(@"here!: %@",self.selectedMessage);
     self.titleLabel.text = [self.selectedMessage objectForKey:@"title"];
+    self.titleLabel.adjustsFontSizeToFitWidth=YES;
     self.textField.text = [self.selectedMessage objectForKey:@"story"];
     
     PFFile *imageFile = [self.selectedMessage objectForKey: @"file"];

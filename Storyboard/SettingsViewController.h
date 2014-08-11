@@ -13,10 +13,14 @@
 - (void)recieveData:(float)searchRadius;
 
 @end
+@protocol MyPreferenceDelegate
+-(void) receivePreference: (int) indexNum;
+@end
 @interface SettingsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UISlider *slider;
 @property (strong, nonatomic) IBOutlet UILabel *radiusLabel;
 @property (nonatomic) id<MyDataDelegate> delegate;
+@property (nonatomic) id<MyPreferenceDelegate> preferenceDelegate;
 @property float searchRadius;
 
 @property (strong, nonatomic) IBOutlet UISwitch *anonSwitch;

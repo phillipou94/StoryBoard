@@ -17,6 +17,9 @@
 @property (nonatomic, strong) NSMutableArray *messagesNear;
 @property (strong,nonatomic) PFObject *selectedMessage;
 @property (strong, nonatomic) NSArray *photosArray;
+@property int preferenceIndex;
+
+
 @property int loadCount;
 
 

@@ -111,6 +111,7 @@
             storyRect.size.height += kOFFSET_FOR_KEYBOARD+150;
             self.smallerImageView.hidden=NO;
             self.fullStoryButton.hidden=YES;
+            self.fullStoryIcon.hidden=YES;
             self.fullPicture.hidden=NO;
             self.storyView.hidden=NO;
     self.smallerLabel.hidden=NO;
@@ -149,6 +150,7 @@
     storyRect.size.height -= kOFFSET_FOR_KEYBOARD+150;
     self.smallerImageView.hidden=YES;
     self.fullStoryButton.hidden=NO;
+    self.fullStoryIcon.hidden=NO;
     self.fullPicture.hidden=YES;
     self.storyView.hidden=YES;
     
@@ -195,7 +197,9 @@
   
     
     self.titleLabel.text = [self.selectedMessage objectForKey:@"title"];
+    self.titleLabel.adjustsFontSizeToFitWidth=YES;
     self.smallerLabel.text = self.titleLabel.text;
+    self.smallerLabel.adjustsFontSizeToFitWidth=YES;
     self.smallerLabel.hidden=YES;
     self.storyView.text = [self.selectedMessage objectForKey:@"story"];
    
@@ -232,6 +236,7 @@
     self.smallerImageView.hidden=YES;
     
     self.fullStoryButton.hidden=NO;
+    self.fullStoryIcon.hidden=NO;
     self.fullPicture.hidden=YES;
     self.storyView.hidden=YES;
     
