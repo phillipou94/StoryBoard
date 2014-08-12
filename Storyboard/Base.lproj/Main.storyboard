@@ -123,7 +123,23 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Storyview" id="oyb-E2-Xug">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="2vW-rw-oFP">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="Qxc-VY-Lbs">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4cl-om-O8a">
+                                <rect key="frame" x="16" y="12" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" backgroundImage="map.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="CMi-zi-H5h" kind="push" identifier="mapTransition" id="cED-4R-eUG"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <action selector="mapButton:" destination="yKa-DV-n6v" id="k1c-M8-Mzx"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="settings-highres.png" style="plain" id="2vW-rw-oFP">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dwt-uT-1F2">
                                 <rect key="frame" x="280" y="10" width="24" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -131,7 +147,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Uf5-it-uYq" kind="push" id="OhJ-xT-YYz"/>
+                                    <segue destination="Uf5-it-uYq" kind="push" identifier="settingsTransition" id="OhJ-xT-YYz"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -1022,6 +1038,61 @@ When you post stories, we also collect, process and store the contents of the st
             </objects>
             <point key="canvasLocation" x="-159" y="1314"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="h8G-AZ-Bby">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="nW2-KV-bGR" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fyn-Tg-pRR">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1fq-IT-6Rb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-175" y="2017"/>
+        </scene>
+        <!--Map View Controller - Stories Around You-->
+        <scene sceneID="Gzn-dx-Yut">
+            <objects>
+                <viewController id="CMi-zi-H5h" customClass="MapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LEd-Pd-Nfx"/>
+                        <viewControllerLayoutGuide type="bottom" id="as4-MU-wbj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aLu-70-KU1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" zoomEnabled="NO" rotateEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AfU-zU-vya">
+                                <rect key="frame" x="0.0" y="61" width="320" height="330"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="Fp4-od-NUT">
+                                <rect key="frame" x="25" y="409" width="214" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="sliderChanged:" destination="CMi-zi-H5h" eventType="valueChanged" id="ecH-65-VKP"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vx3-IX-rkT">
+                                <rect key="frame" x="245" y="413" width="67" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Stories Around You" id="hXb-6j-SVl"/>
+                    <connections>
+                        <outlet property="map" destination="AfU-zU-vya" id="7Yn-tw-34f"/>
+                        <outlet property="searchRadiusLabel" destination="vx3-IX-rkT" id="XwU-lT-gbP"/>
+                        <outlet property="slider" destination="Fp4-od-NUT" id="jtc-xC-twR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IrX-XB-8Nf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="278" y="2017"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="dID-gB-xhL">
             <objects>
@@ -1053,8 +1124,10 @@ When you post stories, we also collect, process and store the contents of the st
         <image name="heart-emptyb copy.png" width="32" height="32"/>
         <image name="heart-fullb copy.png" width="32" height="32"/>
         <image name="login.png" width="1200" height="1600"/>
+        <image name="map.png" width="64" height="64"/>
         <image name="menub.png" width="64" height="64"/>
         <image name="quill.png" width="32" height="32"/>
+        <image name="settings-highres.png" width="16" height="16"/>
         <image name="settings.png" width="64" height="64"/>
     </resources>
     <color key="tintColor" red="0.042679336239999997" green="0.1401582676" blue="0.29842952810000001" alpha="1" colorSpace="calibratedRGB"/>

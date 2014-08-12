@@ -147,7 +147,7 @@
    
 
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM/dd 'at' HH mm" options:0 locale:nil];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM/dd 'at' hh mm" options:0 locale:nil];
                                   
     [formatter setDateFormat:dateFormat];
   

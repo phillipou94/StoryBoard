@@ -44,8 +44,13 @@
 		4D79B24F198D761F008A8BCA /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D79B24E198D761F008A8BCA /* Twitter.framework */; };
 		4D79B251198D765A008A8BCA /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D79B250198D765A008A8BCA /* Social.framework */; };
 		4D79B253198D76FE008A8BCA /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D79B252198D76FE008A8BCA /* Accounts.framework */; };
+		4D81B6B919991ECF004DA867 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D81B6B819991ECF004DA867 /* MapViewController.m */; };
+		4D81B6BB199920FC004DA867 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D81B6BA199920FC004DA867 /* MapKit.framework */; };
+		4D81B6BE19993360004DA867 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D81B6BD19993360004DA867 /* Annotation.m */; };
+		4D81B6C11999371C004DA867 /* GeoPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D81B6C01999371C004DA867 /* GeoPointAnnotation.m */; };
+		4D81B6C319993933004DA867 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D81B6C219993933004DA867 /* map.png */; };
+		4D81B6DB19996C91004DA867 /* settings-highres.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D81B6DA19996C91004DA867 /* settings-highres.png */; };
 		4D86BD4D19929BF8001735BC /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D86BD4C19929BF8001735BC /* SettingsViewController.m */; };
-		4D86BD571992D35C001735BC /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D86BD531992D35C001735BC /* settings.png */; };
 		4D86BD591992EE55001735BC /* anonymouslogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D86BD581992EE55001735BC /* anonymouslogo.png */; };
 		4DADA48E1993E45B0076D89C /* dopeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DADA48D1993E45B0076D89C /* dopeButton.png */; };
 		4DADA4901993E7CB0076D89C /* dopeButtonHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DADA48F1993E7CB0076D89C /* dopeButtonHighlighted.png */; };
@@ -122,9 +127,17 @@
 		4D79B24E198D761F008A8BCA /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4D79B250198D765A008A8BCA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		4D79B252198D76FE008A8BCA /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		4D81B6B719991ECF004DA867 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		4D81B6B819991ECF004DA867 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		4D81B6BA199920FC004DA867 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		4D81B6BC19993360004DA867 /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		4D81B6BD19993360004DA867 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
+		4D81B6BF1999371C004DA867 /* GeoPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeoPointAnnotation.h; path = ../GeoPointAnnotation.h; sourceTree = "<group>"; };
+		4D81B6C01999371C004DA867 /* GeoPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeoPointAnnotation.m; path = ../GeoPointAnnotation.m; sourceTree = "<group>"; };
+		4D81B6C219993933004DA867 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = "../Batch-master/PNG/64x64/map.png"; sourceTree = "<group>"; };
+		4D81B6DA19996C91004DA867 /* settings-highres.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings-highres.png"; path = "../Batch-master/PNG/64x64/settings-highres.png"; sourceTree = "<group>"; };
 		4D86BD4B19929BF8001735BC /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		4D86BD4C19929BF8001735BC /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		4D86BD531992D35C001735BC /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings.png; path = "../Batch-master/PNG/64x64/settings.png"; sourceTree = "<group>"; };
 		4D86BD581992EE55001735BC /* anonymouslogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = anonymouslogo.png; path = "../Batch-master/PNG/64x64/anonymouslogo.png"; sourceTree = "<group>"; };
 		4DADA48D1993E45B0076D89C /* dopeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dopeButton.png; path = ../../Downloads/dopeButton.png; sourceTree = "<group>"; };
 		4DADA48F1993E7CB0076D89C /* dopeButtonHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dopeButtonHighlighted.png; path = ../../Downloads/dopeButtonHighlighted.png; sourceTree = "<group>"; };
@@ -157,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D81B6BB199920FC004DA867 /* MapKit.framework in Frameworks */,
 				4D79B23B198D70CD008A8BCA /* CoreLocation.framework in Frameworks */,
 				4D79B253198D76FE008A8BCA /* Accounts.framework in Frameworks */,
 				4D79B251198D765A008A8BCA /* Social.framework in Frameworks */,
@@ -212,6 +226,7 @@
 		4D79B1F9198D61DF008A8BCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4D81B6BA199920FC004DA867 /* MapKit.framework */,
 				4D79B232198D7030008A8BCA /* Parse-3.framework */,
 				4D79B252198D76FE008A8BCA /* Accounts.framework */,
 				4D79B250198D765A008A8BCA /* Social.framework */,
@@ -238,6 +253,12 @@
 			isa = PBXGroup;
 			children = (
 				4D79B20C198D61DF008A8BCA /* Main.storyboard */,
+				4D81B6BF1999371C004DA867 /* GeoPointAnnotation.h */,
+				4D81B6C01999371C004DA867 /* GeoPointAnnotation.m */,
+				4D81B6BC19993360004DA867 /* Annotation.h */,
+				4D81B6BD19993360004DA867 /* Annotation.m */,
+				4D81B6B719991ECF004DA867 /* MapViewController.h */,
+				4D81B6B819991ECF004DA867 /* MapViewController.m */,
 				4D86BD4B19929BF8001735BC /* SettingsViewController.h */,
 				4D86BD4C19929BF8001735BC /* SettingsViewController.m */,
 				4DDB8CCD198DE308003DDEA6 /* FullStoryViewController.h */,
@@ -300,6 +321,7 @@
 		4DDB8CD0198DFCB5003DDEA6 /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				4D81B6C219993933004DA867 /* map.png */,
 				4DB5FE0619914BA3006B0A64 /* browser-download-2.png */,
 				4DD459061990785B0090B490 /* heart-emptyb copy.png */,
 				4DD459071990785B0090B490 /* heart-fullb copy.png */,
@@ -314,7 +336,7 @@
 				4D070BD71997E389006448B2 /* camerab.png */,
 				4D070BD91997E416006448B2 /* cloudb.png */,
 				4D86BD581992EE55001735BC /* anonymouslogo.png */,
-				4D86BD531992D35C001735BC /* settings.png */,
+				4D81B6DA19996C91004DA867 /* settings-highres.png */,
 				4DADA48D1993E45B0076D89C /* dopeButton.png */,
 				4DADA48F1993E7CB0076D89C /* dopeButtonHighlighted.png */,
 				4DE6D5B11996C9CD003BFDD7 /* storiesIcon2.png */,
@@ -413,9 +435,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D81B6C319993933004DA867 /* map.png in Resources */,
 				4D79B216198D61DF008A8BCA /* Images.xcassets in Resources */,
 				4DADA4901993E7CB0076D89C /* dopeButtonHighlighted.png in Resources */,
 				4D070BDA1997E416006448B2 /* cloudb.png in Resources */,
+				4D81B6DB19996C91004DA867 /* settings-highres.png in Resources */,
 				4DB5FE0719914BA3006B0A64 /* browser-download-2.png in Resources */,
 				4D6C948D1991DA9800D4FF56 /* heart-fullb copy.png in Resources */,
 				4DD459081990785B0090B490 /* heart-emptyb copy.png in Resources */,
@@ -431,7 +455,6 @@
 				4DDB8CDC198E2720003DDEA6 /* helsinki.ttf in Resources */,
 				4D319243198E975F002E1797 /* draftsBanner.png in Resources */,
 				4DE6D5B21996C9CD003BFDD7 /* storiesIcon2.png in Resources */,
-				4D86BD571992D35C001735BC /* settings.png in Resources */,
 				4D31923F198E88DD002E1797 /* login.png in Resources */,
 				4D86BD591992EE55001735BC /* anonymouslogo.png in Resources */,
 				4D319241198E8E6C002E1797 /* signup.png in Resources */,
@@ -454,6 +477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D81B6BE19993360004DA867 /* Annotation.m in Sources */,
 				4DFE044A19953DF900DC663B /* Reachability.m in Sources */,
 				4DDB8CBA198D93C0003DDEA6 /* CameraViewController.m in Sources */,
 				4DDB8CBD198D9765003DDEA6 /* WritingViewController.m in Sources */,
@@ -467,6 +491,8 @@
 				4DDB8CC3198DC1BE003DDEA6 /* SavedTableViewController.m in Sources */,
 				4D31923D198E7F54002E1797 /* SignUpViewController.m in Sources */,
 				4DDB8CCF198DE308003DDEA6 /* FullStoryViewController.m in Sources */,
+				4D81B6B919991ECF004DA867 /* MapViewController.m in Sources */,
+				4D81B6C11999371C004DA867 /* GeoPointAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

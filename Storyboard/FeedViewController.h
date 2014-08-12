@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "SettingsViewController.h"
-@interface FeedViewController : PFQueryTableViewController<CLLocationManagerDelegate,MyDataDelegate>
+#import "MapViewController.h"
+@interface FeedViewController : PFQueryTableViewController<CLLocationManagerDelegate,MyDataDelegate, MyOtherDelegate>
 @property (strong, nonatomic) PFGeoPoint *selfLocation;
 @property (strong, nonatomic) PFUser *currentUser;
 + (void)geoPointForCurrentLocationInBackground:(void ( ^ ) ( PFGeoPoint *geoPoint , NSError *error ))geoPointHandler;

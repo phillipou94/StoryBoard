@@ -13,10 +13,12 @@
 #import "SettingsViewController.h"
 #import "ViewStoryViewController.h"
 #import "Reachability.h"
+#import "MapViewController.h"
 
 @interface FeedViewController  ()
 @property (strong, nonatomic) IBOutlet UILabel *usernamelabel;
 @property float searchRadius;
+@property (strong, nonatomic) NSMutableArray *initialArray;
 
 @end
 static PFGeoPoint *geoPoint;
@@ -60,13 +62,17 @@ static PFGeoPoint *geoPoint;
     //Do something with data here
 }
 -(void) receivePreference: (NSInteger) indexNum{
-    //NSLog(@"%d",indexNum);
-    
+   // NSLog(@"%d",indexNum);
     self.preferenceIndex = indexNum;
-    
+}
+
+-(void)receiveDataFromMap: (float)searchRadius{
+   // NSLog(@"%f",searchRadius);
+    self.searchRadius = searchRadius;
 }
 - (void)viewDidLoad
 {
+    
    /* self.discoverButton.layer.borderWidth=1.0f;
     self.discoverButton.layer.borderColor=[[UIColor blackColor] CGColor];*/
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -108,11 +114,6 @@ static PFGeoPoint *geoPoint;
 
     
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 - (IBAction)segmentChanged:(id)sender {
     
@@ -170,7 +171,7 @@ static PFGeoPoint *geoPoint;
    // NSLog(@"search radius: %f",self.searchRadius);
     
     PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
-
+    
     if(self.selfLocation!=nil){
         //NSLog(@"%d",self.segmentControl.selectedSegmentIndex);
         switch (self.segmentControl.selectedSegmentIndex) {
@@ -203,10 +204,19 @@ static PFGeoPoint *geoPoint;
                 query.limit=100;
                // return query;
                 break;
+            
         }
     
     }
-    query.limit=1;
+    else{
+       
+        [query orderByDescending:@"createdAt"];
+      
+        NSLog(@"called!!");
+        query.limit=250;
+    }
+ 
+    
     return query;
 }
 
@@ -250,10 +260,12 @@ static PFGeoPoint *geoPoint;
     return 1;
     
 }
-
+static int newLoadCount;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
+    if([self.objects count]!=0 && newLoadCount<1){
+        self.initialArray = [NSMutableArray arrayWithArray:self.objects];
+        newLoadCount++;}
     return [self.objects count];
     
 }
@@ -266,6 +278,7 @@ static PFGeoPoint *geoPoint;
     
     cell.hidden = YES;
     if(self.loadCount!=0){
+        
         cell.hidden=NO;
     }
   
@@ -333,7 +346,7 @@ static PFGeoPoint *geoPoint;
        
         viewController.selectedMessage = self.selectedMessage;
            }
-    else{
+     if([segue.identifier isEqualToString:@"settingsTransition"]){
         //NSLog(@"called");
         SettingsViewController *other = segue.destinationViewController;
         
@@ -348,6 +361,13 @@ static PFGeoPoint *geoPoint;
        
         
     }
+     if([segue.identifier isEqualToString:@"mapTransition"]){
+         MapViewController *map =[segue destinationViewController];
+         map.objects = self.initialArray;
+         map.userLocation = self.selfLocation;
+         map.searchRadius=self.searchRadius;
+         map.delegate =self;
+     }
 }
 
 
