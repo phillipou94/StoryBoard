@@ -20,6 +20,7 @@
 @property float searchRadius;
 @property (strong, nonatomic) NSMutableArray *initialArray;
 
+
 @end
 static PFGeoPoint *geoPoint;
 
@@ -48,6 +49,7 @@ static PFGeoPoint *geoPoint;
         self.parseClassName = @"Messages";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES; //allows scrolling down to load more pages*/
+        
        
     }
     
@@ -73,6 +75,7 @@ static PFGeoPoint *geoPoint;
 - (void)viewDidLoad
 {
     
+    self.objectsPerPage=100;
    /* self.discoverButton.layer.borderWidth=1.0f;
     self.discoverButton.layer.borderColor=[[UIColor blackColor] CGColor];*/
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -80,10 +83,10 @@ static PFGeoPoint *geoPoint;
     //[[UITabBar appearance] setBarTintColor:[UIColor yellowColor]];
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [UIFont fontWithName:@"Verdana" size:20.0], NSFontAttributeName, nil]];
+                                                           [UIFont fontWithName:@"AvenirNext-Regular" size:22.0], NSFontAttributeName, nil]];
     
     UIBarButtonItem *newBackButton =
-    [[UIBarButtonItem alloc] initWithTitle:@"back"
+    [[UIBarButtonItem alloc] initWithTitle:@"    "
                                      style:UIBarButtonItemStylePlain
                                     target:nil
                                     action:nil];
@@ -122,7 +125,6 @@ static PFGeoPoint *geoPoint;
     
     [self loadObjects];
 }
-
 
 -(void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden=NO;
@@ -193,7 +195,10 @@ static PFGeoPoint *geoPoint;
                 
                 break;
             case 2:
-                [query whereKey:@"whoTookId" equalTo:self.currentUser.objectId];
+                
+                    [query whereKey:@"whoTookId" equalTo:[[PFUser currentUser] objectId]];
+                
+                
                 
                 if(self.preferenceIndex==0){
                     [query orderByDescending:@"createdAt"];
@@ -201,6 +206,7 @@ static PFGeoPoint *geoPoint;
                 else{
                     [query orderByDescending:@"numberOfLikes"];
                 }
+        
                 query.limit=100;
                // return query;
                 break;
@@ -212,7 +218,7 @@ static PFGeoPoint *geoPoint;
        
         [query orderByDescending:@"createdAt"];
       
-        NSLog(@"called!!");
+        //NSLog(@"called!!");
         query.limit=250;
     }
  
@@ -265,12 +271,39 @@ static int newLoadCount;
 {
     if([self.objects count]!=0 && newLoadCount<1){
         self.initialArray = [NSMutableArray arrayWithArray:self.objects];
-        newLoadCount++;}
+        newLoadCount++;
+    }
+     
+   
     return [self.objects count];
     
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    return YES;
+}
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+     PFObject *message= self.objects[indexPath.row];
+    if(self.segmentControl.selectedSegmentIndex==2){
+        [message deleteInBackground];
+        [self loadObjects];
+        NSLog(@"deleted");
+    }
+    else{
+    [message setObject:@"FLAGGED" forKey:@"Flag"];
+   
+    NSLog(@"flagged");
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Story Flagged As Inappropriate" message:@"We Will Review This Content Immediately" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertView show];
+    
+    [message saveInBackground];
+    }
+    //[self loadObjects];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -300,6 +333,11 @@ static int newLoadCount;
     
     UILabel *dateLabel = (UILabel*) [cell viewWithTag:4];
     UILabel *likeLabel = (UILabel*)[cell viewWithTag:5];
+    
+    
+    
+    
+    
     NSNumber *numLikes = message[@"numberOfLikes"];
     likeLabel.text = [NSString stringWithFormat:@"%@",numLikes];
     if(numLikes==nil){
@@ -368,6 +406,15 @@ static int newLoadCount;
          map.searchRadius=self.searchRadius;
          map.delegate =self;
      }
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(self.segmentControl.selectedSegmentIndex==2){
+        return @"Remove";
+    }
+    else{
+        return @"Flag";}
 }
 
 

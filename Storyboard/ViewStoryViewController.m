@@ -118,6 +118,7 @@
      self.imageView.hidden=YES;
     self.likeButton2.hidden=NO;
     self.heart.hidden=YES;
+    self.dateLabel.hidden=YES;
     self.view.frame = rect;
     
     
@@ -141,6 +142,7 @@
     
     self.imageView.hidden=NO;
     self.smallerLabel.hidden=YES;
+    self.dateLabel.hidden=NO;
     // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
     // 2. increase the size of the view so that the area behind the keyboard is covered up.
     rect.origin.y += kOFFSET_FOR_KEYBOARD+150;
@@ -202,7 +204,7 @@
     self.smallerLabel.adjustsFontSizeToFitWidth=YES;
     self.smallerLabel.hidden=YES;
     self.storyView.text = [self.selectedMessage objectForKey:@"story"];
-   
+    self.dateLabel.hidden=NO;
     self.likeButton2.hidden=YES;
     
     self.heart.hidden=YES;

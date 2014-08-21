@@ -70,6 +70,7 @@
     //if device has camera show camera
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+       
         
     }
     //if not show library of photos

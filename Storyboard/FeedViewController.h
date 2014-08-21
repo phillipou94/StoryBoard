@@ -13,7 +13,6 @@
 @interface FeedViewController : PFQueryTableViewController<CLLocationManagerDelegate,MyDataDelegate, MyOtherDelegate>
 @property (strong, nonatomic) PFGeoPoint *selfLocation;
 @property (strong, nonatomic) PFUser *currentUser;
-+ (void)geoPointForCurrentLocationInBackground:(void ( ^ ) ( PFGeoPoint *geoPoint , NSError *error ))geoPointHandler;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *messagesNear;
 @property (strong,nonatomic) PFObject *selectedMessage;
@@ -28,6 +27,7 @@
 
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+
 
 
 @end

@@ -51,7 +51,7 @@
     
     
     UIBarButtonItem *newBackButton =
-    [[UIBarButtonItem alloc] initWithTitle:@"back"
+    [[UIBarButtonItem alloc] initWithTitle:@"    "
                                      style:UIBarButtonItemStylePlain
                                     target:nil
                                     action:nil];

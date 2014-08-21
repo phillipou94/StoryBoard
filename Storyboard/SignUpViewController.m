@@ -58,9 +58,18 @@
 }
 */
 - (IBAction)signup:(id)sender {
+    
     NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if([username rangeOfString:@"@"].location!=NSNotFound){
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter a username, not an email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+    else{
     if(username.length !=0 && password.length !=0){
+        UIAlertView *EULA = [[UIAlertView alloc] initWithTitle:@"By Using This App You Agree to:" message:@"1. Not posting nude partially nude, or sexually suggestive photos. \n 2. Be responsible for any activity that occurs under your screen name. \n 3. Not abuse harass, threaten, or intimidate other users. \n 4. Not use Storyview for any illegal or unauthorized purpose \n 5. Be responsible for any data, text, information, graphics, photos, profiles that you submit, post and display to users on Storyview. \n Photos that violate these terms will be banned from the app along with the users who post them."
+                                                      delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil];
+        [EULA show];
         PFUser *user = [PFUser user];
         user.username = username;
         user.password = password;
@@ -69,18 +78,18 @@
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             }
             else{
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Error signing up" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error Signing Up" message:@"that username is taken, please try a new one" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertView show];
                 
             }
         }];
     }
     else{
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"One of the fields is empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"One of the fields is empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
     }
-        
-        
+
+    }
     
     
 

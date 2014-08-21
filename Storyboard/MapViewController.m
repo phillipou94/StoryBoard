@@ -7,7 +7,6 @@
 //
 
 #import "MapViewController.h"
-#import "Annotation.h"
 #import <Parse/Parse.h>
 #import "GeoPointAnnotation.h"
 #import <math.h>
@@ -38,6 +37,7 @@
     }
     return self;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -48,6 +48,7 @@
    // [self.map setZoomEnabled:YES];
     [self.map setScrollEnabled:YES];
     [self.map setDelegate:self];
+   
     
     
     //self.searchRadius = 1.0;
@@ -87,13 +88,15 @@
     
     // Do any additional setup after loading the view.
 }
+
+
 -(MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     MKPinAnnotationView *MyPin=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"current"];
   /*  UIButton *advertButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     [advertButton addTarget:self action:@selector(button:) forControlEvents:UIControlEventTouchUpInside];
     
     MyPin.rightCalloutAccessoryView = advertButton;*/
-    MyPin.pinColor = MKPinAnnotationColorPurple;
+    MyPin.pinColor = MKPinAnnotationColorRed;
     
     MyPin.draggable = NO;
     MyPin.highlighted = YES;
@@ -105,27 +108,7 @@
 }
 
 
-- (void)setGeoPoint:(PFGeoPoint *)geoPoint {
-   
-    
-   /* static NSDateFormatter *dateFormatter = nil;
-    if (dateFormatter == nil) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    }
-    
-    static NSNumberFormatter *numberFormatter = nil;
-    if (numberFormatter == nil) {
-        numberFormatter = [[NSNumberFormatter alloc] init];
-        [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        [numberFormatter setMaximumFractionDigits:3];
-    }
-    
-    _title = [dateFormatter stringFromDate:[self.object updatedAt]];
-    _subtitle = [NSString stringWithFormat:@"%@, %@", [numberFormatter stringFromNumber:[NSNumber numberWithDouble:geoPoint.latitude]],
-                 [numberFormatter stringFromNumber:[NSNumber numberWithDouble:geoPoint.longitude]]];*/
-}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

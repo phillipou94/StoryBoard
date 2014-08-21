@@ -14,6 +14,7 @@
 		4D31923F198E88DD002E1797 /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D31923E198E88DD002E1797 /* login.png */; };
 		4D319241198E8E6C002E1797 /* signup.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D319240198E8E6C002E1797 /* signup.png */; };
 		4D319243198E975F002E1797 /* draftsBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D319242198E975F002E1797 /* draftsBanner.png */; };
+		4D65FE32199D7BF900A9E68E /* settings-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D65FE31199D7BF900A9E68E /* settings-2.png */; };
 		4D6C948C1991DA9800D4FF56 /* heart-emptyb copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D6C94891991DA9800D4FF56 /* heart-emptyb copy.png */; };
 		4D6C948D1991DA9800D4FF56 /* heart-fullb copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D6C948A1991DA9800D4FF56 /* heart-fullb copy.png */; };
 		4D79B1FB198D61DF008A8BCA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D79B1FA198D61DF008A8BCA /* Foundation.framework */; };
@@ -46,7 +47,6 @@
 		4D79B253198D76FE008A8BCA /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D79B252198D76FE008A8BCA /* Accounts.framework */; };
 		4D81B6B919991ECF004DA867 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D81B6B819991ECF004DA867 /* MapViewController.m */; };
 		4D81B6BB199920FC004DA867 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D81B6BA199920FC004DA867 /* MapKit.framework */; };
-		4D81B6BE19993360004DA867 /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D81B6BD19993360004DA867 /* Annotation.m */; };
 		4D81B6C11999371C004DA867 /* GeoPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D81B6C01999371C004DA867 /* GeoPointAnnotation.m */; };
 		4D81B6C319993933004DA867 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D81B6C219993933004DA867 /* map.png */; };
 		4D81B6DB19996C91004DA867 /* settings-highres.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D81B6DA19996C91004DA867 /* settings-highres.png */; };
@@ -67,6 +67,7 @@
 		4DDB8CDF198E2CE8003DDEA6 /* firesky.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CDE198E2CE8003DDEA6 /* firesky.png */; };
 		4DDB8CE3198E4888003DDEA6 /* quill.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CE2198E4888003DDEA6 /* quill.png */; };
 		4DDB8CE5198E64BC003DDEA6 /* browser-upload-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB8CE4198E64BC003DDEA6 /* browser-upload-2.png */; };
+		4DE2394419A51778005A2C22 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE2394319A51778005A2C22 /* settings.png */; };
 		4DE6D5B21996C9CD003BFDD7 /* storiesIcon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE6D5B11996C9CD003BFDD7 /* storiesIcon2.png */; };
 		4DFE044A19953DF900DC663B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE044919953DF900DC663B /* Reachability.m */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		4D31923E198E88DD002E1797 /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = Storyboard/login.png; sourceTree = "<group>"; };
 		4D319240198E8E6C002E1797 /* signup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signup.png; path = Storyboard/signup.png; sourceTree = "<group>"; };
 		4D319242198E975F002E1797 /* draftsBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = draftsBanner.png; path = Storyboard/draftsBanner.png; sourceTree = "<group>"; };
+		4D65FE31199D7BF900A9E68E /* settings-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings-2.png"; path = "../Batch-master/PNG/64x64/settings-2.png"; sourceTree = "<group>"; };
 		4D6C94891991DA9800D4FF56 /* heart-emptyb copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "heart-emptyb copy.png"; path = "../Batch-master/PNG/32x32/heart-emptyb copy.png"; sourceTree = "<group>"; };
 		4D6C948A1991DA9800D4FF56 /* heart-fullb copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "heart-fullb copy.png"; path = "../Batch-master/PNG/32x32/heart-fullb copy.png"; sourceTree = "<group>"; };
 		4D79B1F7198D61DF008A8BCA /* Storyview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Storyview.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,8 +132,6 @@
 		4D81B6B719991ECF004DA867 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		4D81B6B819991ECF004DA867 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		4D81B6BA199920FC004DA867 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		4D81B6BC19993360004DA867 /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
-		4D81B6BD19993360004DA867 /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
 		4D81B6BF1999371C004DA867 /* GeoPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeoPointAnnotation.h; path = ../GeoPointAnnotation.h; sourceTree = "<group>"; };
 		4D81B6C01999371C004DA867 /* GeoPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeoPointAnnotation.m; path = ../GeoPointAnnotation.m; sourceTree = "<group>"; };
 		4D81B6C219993933004DA867 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = "../Batch-master/PNG/64x64/map.png"; sourceTree = "<group>"; };
@@ -160,6 +160,7 @@
 		4DDB8CDE198E2CE8003DDEA6 /* firesky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = firesky.png; path = ../../Downloads/firesky.png; sourceTree = "<group>"; };
 		4DDB8CE2198E4888003DDEA6 /* quill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = quill.png; path = "../Batch-master/PNG/32x32/quill.png"; sourceTree = "<group>"; };
 		4DDB8CE4198E64BC003DDEA6 /* browser-upload-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "browser-upload-2.png"; path = "../Batch-master/PNG/32x32/browser-upload-2.png"; sourceTree = "<group>"; };
+		4DE2394319A51778005A2C22 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings.png; path = ../Rascal/settings.png; sourceTree = "<group>"; };
 		4DE6D5B11996C9CD003BFDD7 /* storiesIcon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = storiesIcon2.png; path = Storyboard/storiesIcon2.png; sourceTree = "<group>"; };
 		4DFE044819953DF900DC663B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Reachability/Reachability.h; sourceTree = SOURCE_ROOT; };
 		4DFE044919953DF900DC663B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Reachability/Reachability.m; sourceTree = SOURCE_ROOT; };
@@ -255,8 +256,6 @@
 				4D79B20C198D61DF008A8BCA /* Main.storyboard */,
 				4D81B6BF1999371C004DA867 /* GeoPointAnnotation.h */,
 				4D81B6C01999371C004DA867 /* GeoPointAnnotation.m */,
-				4D81B6BC19993360004DA867 /* Annotation.h */,
-				4D81B6BD19993360004DA867 /* Annotation.m */,
 				4D81B6B719991ECF004DA867 /* MapViewController.h */,
 				4D81B6B819991ECF004DA867 /* MapViewController.m */,
 				4D86BD4B19929BF8001735BC /* SettingsViewController.h */,
@@ -322,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				4D81B6C219993933004DA867 /* map.png */,
+				4DE2394319A51778005A2C22 /* settings.png */,
 				4DB5FE0619914BA3006B0A64 /* browser-download-2.png */,
 				4DD459061990785B0090B490 /* heart-emptyb copy.png */,
 				4DD459071990785B0090B490 /* heart-fullb copy.png */,
@@ -340,6 +340,7 @@
 				4DADA48D1993E45B0076D89C /* dopeButton.png */,
 				4DADA48F1993E7CB0076D89C /* dopeButtonHighlighted.png */,
 				4DE6D5B11996C9CD003BFDD7 /* storiesIcon2.png */,
+				4D65FE31199D7BF900A9E68E /* settings-2.png */,
 				4D070BDB1997E46A006448B2 /* menub.png */,
 				4DDB8CD9198E2720003DDEA6 /* Helsinki */,
 			);
@@ -444,6 +445,8 @@
 				4D6C948D1991DA9800D4FF56 /* heart-fullb copy.png in Resources */,
 				4DD459081990785B0090B490 /* heart-emptyb copy.png in Resources */,
 				4D070BD81997E389006448B2 /* camerab.png in Resources */,
+				4D65FE32199D7BF900A9E68E /* settings-2.png in Resources */,
+				4DE2394419A51778005A2C22 /* settings.png in Resources */,
 				4DD459091990785B0090B490 /* heart-fullb copy.png in Resources */,
 				4DDB8CE3198E4888003DDEA6 /* quill.png in Resources */,
 				4D79B205198D61DF008A8BCA /* InfoPlist.strings in Resources */,
@@ -477,7 +480,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D81B6BE19993360004DA867 /* Annotation.m in Sources */,
 				4DFE044A19953DF900DC663B /* Reachability.m in Sources */,
 				4DDB8CBA198D93C0003DDEA6 /* CameraViewController.m in Sources */,
 				4DDB8CBD198D9765003DDEA6 /* WritingViewController.m in Sources */,
@@ -576,6 +578,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -607,6 +610,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -616,9 +620,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Phillip Ou (F6J9Z7FPQB)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Phillip Ou (F6J9Z7FPQB)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/phillipou/Downloads,
@@ -630,7 +634,7 @@
 				INFOPLIST_FILE = "Storyboard/Storyview-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = Storyview;
-				PROVISIONING_PROFILE = "FF0A1792-5B9E-4DDD-A704-5F7180D44EF2";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -640,9 +644,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Phillip Ou (F6J9Z7FPQB)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Phillip Ou (F6J9Z7FPQB)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/phillipou/Downloads,
@@ -654,7 +658,7 @@
 				INFOPLIST_FILE = "Storyboard/Storyview-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = Storyview;
-				PROVISIONING_PROFILE = "FF0A1792-5B9E-4DDD-A704-5F7180D44EF2";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

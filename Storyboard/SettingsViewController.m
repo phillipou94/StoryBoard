@@ -135,12 +135,52 @@
     // Pass the selected object to the new view controller.
 }
 */
+#define kOFFSET_FOR_KEYBOARD 110.0
+-(void)setViewMovedUp:(BOOL)movedUp
+{
+    
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+        
+        CGRect rect = self.view.frame;
+        CGRect textViewRect = self.privacyPolicy.frame;
+        if (movedUp)
+        {
+            // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+            // 2. increase the size of the view so that the area behind the keyboard is covered up.
+            rect.origin.y -= kOFFSET_FOR_KEYBOARD+155;
+            rect.size.height += kOFFSET_FOR_KEYBOARD+155;
+            textViewRect.origin.y -=kOFFSET_FOR_KEYBOARD+1;
+            textViewRect.size.height += kOFFSET_FOR_KEYBOARD+150;
+            
+            
+            //self.chosenImageView.hidden=YES;
+            
+        }
+        else
+        {
+            // revert back to the normal state.
+            rect.origin.y += kOFFSET_FOR_KEYBOARD+155;
+            rect.size.height -= kOFFSET_FOR_KEYBOARD+155;
+            textViewRect.origin.y +=kOFFSET_FOR_KEYBOARD+155;
+            textViewRect.size.height -= kOFFSET_FOR_KEYBOARD+155;
+            //self.chosenImageView.hidden=NO;
+            
+        }
+        self.view.frame = rect;
+        
+        [UIView commitAnimations];
+    
+}
+
 - (IBAction)showPrivacyPolicy:(id)sender {
     if(self.privacyPolicy.hidden==NO){
         self.privacyPolicy.hidden=YES;
+        [self setViewMovedUp:NO];
     }
     else{
-        self.privacyPolicy.hidden=NO;}
+        self.privacyPolicy.hidden=NO;
+        [self setViewMovedUp:YES];}
     
 }
 

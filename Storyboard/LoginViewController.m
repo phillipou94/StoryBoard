@@ -91,6 +91,7 @@
 }
 */
 - (IBAction)login:(id)sender {
+    
     NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if([username rangeOfString:@"@"].location!=NSNotFound){
@@ -98,7 +99,11 @@
         [alertView show];
     }
     else{
+        UIAlertView *EULA = [[UIAlertView alloc] initWithTitle:@"By Using This App You Agree to:" message:@"1. Not post nude partially nude, or sexually suggestive photos. \n 2. Be responsible for any activity that occurs under your screen name. \n 3. Not abuse harass, threaten, or intimidate other users. \n 4. Not use Storyview for any illegal or unauthorized purpose \n 5. Be responsible for any data, text, information, graphics, photos, profiles that you submit, post and display to users on Storyview. \n Photos that violate these terms will be banned from the app along with the users who post them."
+                                                      delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil];
+        [EULA show];
     if(username.length !=0 && password.length !=0){
+        
         PFUser *user = [PFUser user];
         user.username = username;
         user.password = password;
@@ -127,9 +132,13 @@
 }
 
 - (IBAction)signup:(id)sender {
+    
     NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(username.length !=0 && password.length !=0){
+        UIAlertView *EULA = [[UIAlertView alloc] initWithTitle:@"By Using This App You Agree to:" message:@"1. Not posting nude partially nude, or sexually suggestive photos. \n 2. Be responsible for any activity that occurs under your screen name. \n 3. Not abuse harass, threaten, or intimidate other users. \n 4. Not use Storyview for any illegal or unauthorized purpose \n 5. Be responsible for any data, text, information, graphics, photos, profiles that you submit, post and display to users on Storyview. \n Photos that violate these terms will be banned from the app along with the users who post them."
+ delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil];
+        [EULA show];
         PFUser *user = [PFUser user];
         user.username = username;
         user.password = password;
