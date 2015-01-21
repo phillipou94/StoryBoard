@@ -79,23 +79,18 @@
         [self.anonSwitch setOn:YES];
         self.anonymousLabel.hidden=NO;
      
-    }
-    else{
+    } else{
         [self.anonSwitch setOn:NO];
          self.anonymousLabel.hidden=YES;
-        
     }
-        self.preference=[self.currentUser[@"preferencesIndex"] integerValue];
+    self.preference=[self.currentUser[@"preferencesIndex"] integerValue];
     [self.segmentController setSelectedSegmentIndex:self.preference];
 
     [self.slider setValue:self.searchRadius];
     [super viewWillAppear:animated];
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
+
 - (IBAction)logout:(id)sender {
     [PFUser logOut];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -121,20 +116,9 @@
     
     if(![self.initialState isEqualToString:self.currentUser[@"Anonymous"]]|| self.preference!=[self.currentUser[@"preferencesIndex"] intValue]){
         [self.currentUser saveInBackground];
-        //NSLog(@"changed");
     }
-    //NSLog(@"didn't change");
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 #define kOFFSET_FOR_KEYBOARD 110.0
 -(void)setViewMovedUp:(BOOL)movedUp
 {

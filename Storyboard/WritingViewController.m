@@ -10,25 +10,19 @@
 #import "CameraViewController.h"
 #import <Parse/Parse.h>
 #import "Reachability.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface WritingViewController ()
 
-
 @end
 static int clickcount;
+
 @implementation WritingViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
     clickcount=0;
     self.currentUser = [PFUser currentUser];
     self.titleTextField.text= self.titleText;
@@ -41,22 +35,63 @@ static int clickcount;
 
     
     self.textView.delegate = self;
+    
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(showKeyboard)];
-    
-    
     [swipeUp setDirection:UISwipeGestureRecognizerDirectionUp];
-    // [self.imageView addGestureRecognizer:swipeLeft];
     [self.view addGestureRecognizer:swipeUp];
     
     UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [swipeDown setDirection:UISwipeGestureRecognizerDirectionDown];
-    // [self.imageView addGestureRecognizer:swipeLeft];
     [self.view addGestureRecognizer:swipeDown];
-    
-    //NSLog(@"%@",self.messageLocation);
    
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    self.chosenImageView.image = self.chosenImage;
+    self.smallerImageView.image = self.chosenImage;
+    self.smallerImageView.hidden=YES;
+    
+    if([self.currentUser[@"Anonymous"] isEqualToString:@"Yes"]){
+        self.anonymousLabel.hidden=NO;
+    }
+    else{
+        self.anonymousLabel.hidden=YES;
+    }
+    
+   
+    
+    // ensures that after we take a photo it will go back to original viewcontroller to take pictures
+    if(self.chosenImage==nil){
+        //NSLog(@"going back!");
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    // register for keyboard notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    // unregister for keyboard notifications while not visible.
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
@@ -70,6 +105,7 @@ static int clickcount;
         // Scroll caret to visible area
         CGPoint offset = textView.contentOffset;
         offset.y += overflow + 7; // leave 7 pixels margin
+        
         // Cannot animate with setContentOffset:animated: or caret will not appear
         [UIView animateWithDuration:.2 animations:^{
             [textView setContentOffset:offset];
@@ -77,7 +113,7 @@ static int clickcount;
     }
 }
 
-#define kOFFSET_FOR_KEYBOARD 124.0
+#define kOFFSET_FOR_KEYBOARD 140.0
 
 -(void)keyboardWillShow {
     // Animate the current view out of the way
@@ -157,52 +193,7 @@ static int clickcount;
 }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    
-    self.chosenImageView.image = self.chosenImage;
-    self.smallerImageView.image = self.chosenImage;
-    self.smallerImageView.hidden=YES;
-   
-    if([self.currentUser[@"Anonymous"] isEqualToString:@"Yes"]){
-        self.anonymousLabel.hidden=NO;
-    }
-    else{
-        self.anonymousLabel.hidden=YES;
-    }
-    
-    [super viewWillAppear:animated];
-   
-    // ensures that after we take a photo it will go back to original viewcontroller to take pictures
-    if(self.chosenImage==nil){
-        //NSLog(@"going back!");
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    
-     // register for keyboard notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-}
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    // unregister for keyboard notifications while not visible.
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardWillShowNotification
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardWillHideNotification
-                                                  object:nil];
-}
 -(void)dismissKeyboard {
     [self.textView resignFirstResponder];
     [self.titleTextField resignFirstResponder];
@@ -217,29 +208,8 @@ static int clickcount;
         
     }
     [self.textView becomeFirstResponder];
-}/*
--(void) viewWillAppear:(BOOL)animated{
-     //[self.chosenImageView setImage: self.chosenImage];
-    
-    
-}*/
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if(clickcount==0){
@@ -273,12 +243,12 @@ static int clickcount;
     [self.tabBarController setSelectedIndex:0];
     
 }
--(void) reset{
+-(void)reset {
+    
     self.selectedMessage = nil;
     self.chosenImage = nil;
     self.titleText=nil;
     self.titleTextField=nil;
-    //[self.tabBarController setSelectedIndex:0];
     
 }
 - (IBAction)saveButton:(id)sender {

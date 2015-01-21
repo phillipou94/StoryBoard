@@ -15,7 +15,7 @@
 -(void)receiveDataFromMap: (float)searchRadius;
 
 @end
-@interface MapViewController : UIViewController<MKAnnotation>
+@interface MapViewController : UIViewController<MKAnnotation, MKMapViewDelegate>
 @property (strong, nonatomic) IBOutlet MKMapView *map;
 @property (strong,nonatomic) NSArray *objects;
 @property (strong, nonatomic) PFGeoPoint *userLocation;

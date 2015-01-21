@@ -57,22 +57,8 @@
                                     action:nil];
     [[self navigationItem] setBackBarButtonItem:newBackButton];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
--(void) viewDidAppear:(BOOL)animated{
-    //[self loadObjects];
-    
-    [super viewDidAppear:animated];
-}
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 
 -(PFQuery*)queryForTable{
@@ -137,33 +123,22 @@
         titleLabel.text = @"Untitled";
     }
     titleLabel.adjustsFontSizeToFitWidth=YES;
-    
-    
-    
-    
-    UILabel *dateLabel = (UILabel*) [cell viewWithTag:2];
-    
-    
-   
 
+    UILabel *dateLabel = (UILabel*) [cell viewWithTag:2];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMM/dd 'at' hh mm" options:0 locale:nil];
-                                  
     [formatter setDateFormat:dateFormat];
-  
     dateLabel.text= [formatter stringFromDate:message.createdAt];
     
     
     
     PFImageView *photo = (PFImageView *)[cell viewWithTag:1];
-    
     photo.file = [message objectForKey:@"file"]; //save photo.file in key image
     //handles landscape
     int orientation = photo.image.imageOrientation;
     if(orientation ==0 || orientation ==1){
         photo.contentMode = UIViewContentModeScaleAspectFit;}
     [photo loadInBackground];
-    
     
     cell.selected=NO;
     
@@ -172,30 +147,25 @@
 
 -(void) tableView: (UITableViewCell *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    //NSLog(@"%d",indexPath.row);
     self.selectedMessage= self.objects[indexPath.row];
     [self performSegueWithIdentifier:@"transition" sender:self];
-    
     
 }
 
 
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
 
     return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //NSLog(@"deleting");
+    
         PFObject *objectToDelete = self.objects[indexPath.row];
-       
         [objectToDelete deleteInBackground];
         [self loadObjects];
         
-        //add code here for when you hit delete
         
     }
 }
@@ -203,8 +173,6 @@
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"transition"]){
         SaveWritingViewController *viewController = [segue destinationViewController];
-        //WritingViewController *viewController = [[WritingViewController alloc]init];
-        
         viewController.selectedMessage = self.selectedMessage;
     }
 }
@@ -225,6 +193,7 @@
     NetworkStatus networkStatus = [reachability currentReachabilityStatus];
     return networkStatus != NotReachable;
 }
+
 - (IBAction)showDrafts:(id)sender {
     [self loadObjects];
 }

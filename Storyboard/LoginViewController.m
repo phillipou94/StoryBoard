@@ -20,7 +20,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -50,46 +49,26 @@
 
 
 -(void) loginViewcontroller: (PFLogInViewController *) logInController didLogInUser: (PFUser *)user{
-    
-    
-    [self dismissModalViewControllerAnimated:YES];
+
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 -(void) logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController{
-    [self dismissModalViewControllerAnimated:YES];
+
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user{
-    [self dismissModalViewControllerAnimated:YES];
+
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
 -(void) signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController{
-    [self dismissModalViewControllerAnimated:YES];
-}
 
-    
-
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (IBAction)login:(id)sender {
     
     NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -157,9 +136,6 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"One of the fields is empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }
-    
-    
-    
 
 }
 

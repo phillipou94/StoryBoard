@@ -10,14 +10,14 @@
 #import <Parse/Parse.h>
 #import "SettingsViewController.h"
 #import "MapViewController.h"
-@interface FeedViewController : PFQueryTableViewController<CLLocationManagerDelegate,MyDataDelegate, MyOtherDelegate>
+@interface FeedViewController : PFQueryTableViewController<CLLocationManagerDelegate,MyDataDelegate, MyOtherDelegate, MyPreferenceDelegate>
 @property (strong, nonatomic) PFGeoPoint *selfLocation;
 @property (strong, nonatomic) PFUser *currentUser;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *messagesNear;
 @property (strong,nonatomic) PFObject *selectedMessage;
 @property (strong, nonatomic) NSArray *photosArray;
-@property int preferenceIndex;
+@property NSInteger preferenceIndex;
 
 
 @property int loadCount;

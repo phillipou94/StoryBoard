@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface WritingViewController : UIViewController
+@interface WritingViewController : UIViewController <UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UIImageView *chosenImageView;
 @property (strong, nonatomic) UIImage *chosenImage;
 @property (nonatomic,strong) PFGeoPoint *messageLocation;
@@ -22,4 +24,11 @@
 @property (strong, nonatomic) PFObject *selectedMessage;
 
 @property (strong, nonatomic) IBOutlet UIButton *anonymousLabel;
+
+@property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
+
+@property (nonatomic, strong) NSString *videoFilePath;
+@property (nonatomic, strong) UIImage *videoThumbnail;
+@property (nonatomic,strong) NSString *isVideo;
+@property (nonatomic, strong) PFFile *videoFile;
 @end

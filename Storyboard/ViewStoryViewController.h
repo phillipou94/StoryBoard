@@ -13,6 +13,7 @@
 @property (strong,nonatomic) PFObject *selectedMessage;
 @property(strong,nonatomic) UIImage *image;
 
+
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 @property (strong, nonatomic) IBOutlet UITextView *storyView;
